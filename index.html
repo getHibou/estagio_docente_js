@@ -415,7 +415,7 @@ const course = [
 </div>`
       },
       {
-        id:'m2l3', title:'2.3 Flexbox — Layout Moderno',
+        id:'m2l3', title:'2.3 Flexbox: Layout Moderno',
         code:{ html:`<div class="container">\n  <div class="item item-1">HTML</div>\n  <div class="item item-2">CSS</div>\n  <div class="item item-3">JS</div>\n</div>\n\n<div class="card-row">\n  <div class="card">🎨 Design</div>\n  <div class="card">💻 Código</div>\n  <div class="card">🚀 Deploy</div>\n</div>`, css:`body { font-family: sans-serif; padding: 20px; background: #f1f5f9; }\n\n/* Flex Container */\n.container {\n  display: flex;\n  justify-content: space-between; /* distribui horizontalmente */\n  align-items: center;            /* alinha verticalmente */\n  gap: 12px;\n  padding: 16px;\n  background: white;\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.item {\n  padding: 12px 24px;\n  color: white;\n  border-radius: 6px;\n  font-weight: bold;\n}\n.item-1 { background: #f59e0b; }\n.item-2 { background: #3b82f6; }\n.item-3 { background: #10b981; }\n\n.card-row { display: flex; gap: 12px; flex-wrap: wrap; }\n.card {\n  flex: 1;\n  min-width: 100px;\n  background: white;\n  padding: 16px;\n  border-radius: 8px;\n  text-align: center;\n  border: 1px solid #e2e8f0;\n}`, js:`` },
         content:`
 <h3>O que é Flexbox?</h3>
@@ -536,7 +536,7 @@ saudar(<span class="str">'Ana'</span>);  <span class="cm">// → "Olá, Ana!"</s
 </div>`
       },
       {
-        id:'m3l3', title:'3.3 DOM — Manipulando a Página',
+        id:'m3l3', title:'3.3 DOM: Manipulando a Página',
         code:{ html:`<h2>Lista de Tarefas</h2>\n<div style="display:flex;gap:8px;margin-bottom:16px">\n  <input type="text" id="tarefa" placeholder="Nova tarefa..." style="flex:1;padding:8px;border:1px solid #ccc;border-radius:6px">\n  <button onclick="adicionarTarefa()">Adicionar</button>\n</div>\n<ul id="lista"></ul>\n<p id="contagem" style="color:#6b7280;font-size:0.9rem">0 tarefas</p>`, css:`body { font-family: sans-serif; padding: 24px; max-width: 400px; }\nbutton { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }\nli { background: #f1f5f9; margin: 4px 0; padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; list-style: none; }\n.remover { background: #ef4444; color: white; border: none; border-radius: 4px; padding: 2px 8px; cursor: pointer; font-size: 0.8rem; }`, js:`let tarefas = [];\n\nfunction adicionarTarefa() {\n  const input = document.getElementById('tarefa');\n  const texto = input.value.trim();\n  \n  if (!texto) return; // ignora se vazio\n  \n  tarefas.push(texto);\n  input.value = ''; // limpa o campo\n  renderizarLista();\n  console.log('Tarefas:', tarefas);\n}\n\nfunction removerTarefa(index) {\n  tarefas.splice(index, 1);\n  renderizarLista();\n}\n\nfunction renderizarLista() {\n  const lista = document.getElementById('lista');\n  const contagem = document.getElementById('contagem');\n  \n  lista.innerHTML = tarefas.map((t, i) =>\n    \`<li>\${t} <button class="remover" onclick="removerTarefa(\${i})">✕</button></li>\`\n  ).join('');\n  \n  contagem.textContent = tarefas.length + ' tarefas';\n}` },
         content:`
 <h3>O que é o DOM?</h3>
