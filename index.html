@@ -48,11 +48,12 @@
     .dark .quiz-option.wrong{background:#450a0a!important;border-color:#dc2626!important;color:#f87171!important}
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
     .fade-in{animation:fadeIn .25s ease both}
+    .emmet-hint{position:absolute;bottom:100%;left:0;background:#1e293b;color:#94a3b8;font-size:.7rem;padding:.25rem .5rem;border-radius:.25rem;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s}
+    .emmet-hint.show{opacity:1}
   </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
-<!-- HEADER -->
 <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-800/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 px-4 lg:px-6 py-3 flex items-center justify-between">
   <div class="flex items-center gap-3">
     <button id="mobileMenuBtn" class="lg:hidden text-slate-500 p-1 hover:text-slate-800 dark:hover:text-white">
@@ -63,8 +64,8 @@
         <i class="fa-solid fa-code text-sm"></i>
       </span>
       <div>
-        <h1 class="font-bold text-base leading-tight">Estágo<span class="text-brand-600 dark:text-indigo-400"> Docente II -</span> Aula de Introdução a Programação WEB</h1>
-        <p class="text-[10px] text-slate-400 hidden sm:block">HTML5 · CSS3 · JavaScript</p>
+        <h1 class="font-bold text-base leading-tight">Estágio<span class="text-brand-600 dark:text-indigo-400"> Docente II,</span> Introdução à Programação Web</h1>
+        <p class="text-[10px] text-slate-400 hidden sm:block">HTML5, CSS3, JavaScript</p>
       </div>
     </div>
   </div>
@@ -87,7 +88,6 @@
 </header>
 
 <div class="flex-1 flex overflow-hidden relative">
-  <!-- SIDEBAR -->
   <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-20 w-72 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 top-0 pt-[57px] lg:pt-0">
     <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
       <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Conteúdo do Curso</span>
@@ -96,33 +96,29 @@
     <nav id="sidebarNav" class="flex-1 overflow-y-auto p-3 space-y-3"></nav>
     <div class="p-3 border-t border-slate-200 dark:border-slate-700">
       <button onclick="switchView('playground')" class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2.5 rounded-lg transition shadow">
-        <i class="fa-solid fa-flask-vial"></i> Teste seu Código :)
+        <i class="fa-solid fa-flask-vial"></i> Teste seu Código
       </button>
     </div>
   </aside>
   <div id="overlay" class="fixed inset-0 bg-black/50 z-10 hidden lg:hidden"></div>
 
-  <!-- MAIN -->
   <main class="flex-1 flex flex-col overflow-hidden">
-    <!-- TABS -->
     <div class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-4 md:px-8 flex items-center gap-5 text-sm font-medium overflow-x-auto">
       <button id="tabLesson" onclick="switchView('lesson')" class="py-3 tab-active flex items-center gap-1.5 whitespace-nowrap">
         <i class="fa-solid fa-book-open"></i> Aula
       </button>
       <button id="tabPlayground" onclick="switchView('playground')" class="py-3 text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 whitespace-nowrap">
-        <i class="fa-solid fa-laptop-code"></i> Editor & Preview
+        <i class="fa-solid fa-laptop-code"></i> Editor e Preview
       </button>
       <button id="tabQuiz" onclick="switchView('quiz')" class="py-3 text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 whitespace-nowrap">
         <i class="fa-solid fa-circle-question"></i> Quiz
       </button>
     </div>
 
-    <!-- VIEW: LESSON -->
     <div id="viewLesson" class="flex-1 overflow-y-auto p-4 md:p-8">
       <div class="max-w-3xl mx-auto" id="lessonContainer"></div>
     </div>
 
-    <!-- VIEW: PLAYGROUND -->
     <div id="viewPlayground" class="flex-1 hidden flex-col lg:flex-row overflow-hidden bg-slate-950 text-slate-100">
       <div class="flex-1 flex flex-col border-b lg:border-b-0 lg:border-r border-slate-800 h-1/2 lg:h-full">
         <div class="bg-slate-950 px-3 py-2 flex items-center justify-between border-b border-slate-800">
@@ -141,7 +137,8 @@
           </div>
         </div>
         <div class="flex-1 relative overflow-hidden">
-          <textarea id="htmlEd" class="absolute inset-0 w-full h-full p-4 bg-slate-900 font-code text-sm text-amber-100 outline-none resize-none" spellcheck="false"></textarea>
+          <div id="emmetHint" class="emmet-hint absolute bottom-2 left-4 z-10">! expande para estrutura HTML completa (Tab ou Enter)</div>
+          <textarea id="htmlEd" class="absolute inset-0 w-full h-full p-4 bg-slate-900 font-code text-sm text-amber-100 outline-none resize-none" spellcheck="false" placeholder="Digite ! e pressione Tab para gerar a estrutura HTML completa..."></textarea>
           <textarea id="cssEd" class="absolute inset-0 w-full h-full p-4 bg-slate-900 font-code text-sm text-sky-100 outline-none resize-none hidden" spellcheck="false"></textarea>
           <textarea id="jsEd" class="absolute inset-0 w-full h-full p-4 bg-slate-900 font-code text-sm text-yellow-100 outline-none resize-none hidden" spellcheck="false"></textarea>
         </div>
@@ -151,27 +148,25 @@
           <span><i class="fa-solid fa-desktop text-indigo-400 mr-1"></i> Live Preview</span>
           <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded-full">Auto-atualiza</span>
         </div>
-        <div class="flex-1 bg-white"><iframe id="previewFrame" class="w-full h-full border-none"></iframe></div>
+        <div class="flex-1 bg-white dark:bg-slate-100"><iframe id="previewFrame" class="w-full h-full border-none"></iframe></div>
         <div class="h-28 bg-slate-950 border-t border-slate-800 flex flex-col">
           <div class="px-3 py-1 bg-slate-900 text-[10px] font-mono text-slate-400 flex justify-between">
             <span><i class="fa-solid fa-terminal mr-1"></i> Console JS</span>
             <button onclick="clearConsole()" class="hover:text-slate-200"><i class="fa-solid fa-trash-can mr-1"></i>Limpar</button>
           </div>
           <div id="consoleOut" class="flex-1 p-2 font-code text-xs text-slate-300 overflow-y-auto space-y-0.5">
-            <div class="text-slate-600 italic">// console.log() aparece aqui…</div>
+            <div class="text-slate-600 italic">// console.log() aparece aqui</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- VIEW: QUIZ -->
     <div id="viewQuiz" class="flex-1 hidden overflow-y-auto p-4 md:p-8">
       <div class="max-w-2xl mx-auto" id="quizContainer"></div>
     </div>
   </main>
 </div>
 
-<!-- MODAL GITHUB PAGES -->
 <div id="ghModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
   <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 dark:border-slate-700 shadow-2xl p-6 space-y-5 fade-in">
     <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
@@ -188,32 +183,32 @@
       <div class="flex gap-3 bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
         <span class="step-badge">1</span>
         <div><p class="font-semibold text-slate-900 dark:text-white mb-1">Crie uma conta no GitHub</p>
-        <p class="text-slate-500 dark:text-slate-400">Acesse <strong>github.com</strong> e crie sua conta gratuita. O GitHub é onde os desenvolvedores guardam e compartilham código.</p></div>
+        <p class="text-slate-500 dark:text-slate-400">Acesse <strong>github.com</strong> e crie sua conta gratuita.</p></div>
       </div>
       <div class="flex gap-3 bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
         <span class="step-badge">2</span>
         <div><p class="font-semibold text-slate-900 dark:text-white mb-1">Crie um repositório público</p>
-        <p class="text-slate-500 dark:text-slate-400">Clique em <strong>"New Repository"</strong>, dê o nome <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">meu-projeto-web</code> e marque como <strong>Public</strong>.</p></div>
+        <p class="text-slate-500 dark:text-slate-400">Clique em <strong>"New Repository"</strong>, dê um nome e marque como <strong>Public</strong>.</p></div>
       </div>
       <div class="flex gap-3 bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
         <span class="step-badge">3</span>
-        <div><p class="font-semibold text-slate-900 dark:text-white mb-1">Salve seu arquivo como <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-xs">index.html</code></p>
-        <p class="text-slate-500 dark:text-slate-400">Copie o código do Editor, cole num arquivo de texto e salve com o nome exato <strong>index.html</strong> (não "index.html.txt").</p></div>
+        <div><p class="font-semibold text-slate-900 dark:text-white mb-1">Salve como <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-xs">index.html</code></p>
+        <p class="text-slate-500 dark:text-slate-400">Copie o código do Editor e salve com o nome exato <strong>index.html</strong>.</p></div>
       </div>
       <div class="flex gap-3 bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
         <span class="step-badge">4</span>
-        <div><p class="font-semibold text-slate-900 dark:text-white mb-1">Faça o upload do arquivo</p>
-        <p class="text-slate-500 dark:text-slate-400">No repositório criado, clique em <strong>"Add file" → "Upload files"</strong>, arraste o <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-xs">index.html</code> e confirme com <strong>"Commit changes"</strong>.</p></div>
+        <div><p class="font-semibold text-slate-900 dark:text-white mb-1">Faça o upload</p>
+        <p class="text-slate-500 dark:text-slate-400"><strong>"Add file" → "Upload files"</strong>, arraste o arquivo e clique em <strong>"Commit changes"</strong>.</p></div>
       </div>
       <div class="flex gap-3 bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
         <span class="step-badge">5</span>
         <div><p class="font-semibold text-slate-900 dark:text-white mb-1">Ative o GitHub Pages</p>
-        <p class="text-slate-500 dark:text-slate-400">Vá em <strong>Settings → Pages</strong>. Em Branch, escolha <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-xs">main</code> e pasta <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-xs">/(root)</code>. Clique em <strong>Save</strong>!</p></div>
+        <p class="text-slate-500 dark:text-slate-400"><strong>Settings → Pages → Branch main → Save</strong>.</p></div>
       </div>
       <div class="flex gap-3 bg-emerald-50 dark:bg-emerald-950/40 p-4 rounded-xl border border-emerald-200 dark:border-emerald-800">
         <span class="step-badge bg-emerald-600">6</span>
-        <div><p class="font-semibold text-emerald-800 dark:text-emerald-300 mb-1">Seu site está no ar! 🎉</p>
-        <p class="text-emerald-700 dark:text-emerald-400">Em ~60 segundos, seu site estará disponível em: <br><strong>https://SEU-USUARIO.github.io/meu-projeto-web/</strong></p></div>
+        <div><p class="font-semibold text-emerald-800 dark:text-emerald-300 mb-1">Seu site está no ar!</p>
+        <p class="text-emerald-700 dark:text-emerald-400">Em cerca de 60 segundos: <strong>https://SEU-USUARIO.github.io/meu-projeto/</strong></p></div>
       </div>
     </div>
     <div class="flex justify-end pt-2">
@@ -226,6 +221,18 @@
 // ============================================================
 // DADOS DO CURSO
 // ============================================================
+const DOCTYPE_SNIPPET = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Página</title>
+</head>
+<body>
+  
+</body>
+</html>`;
+
 const course = [
   // ── MÓDULO 1: HTML ──────────────────────────────────────────
   {
@@ -234,40 +241,49 @@ const course = [
     lessons:[
       {
         id:'m1l1', title:'1.1 O que é HTML e como funciona',
-        code:{ html:`<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n  <meta charset="UTF-8">\n  <title>Minha Primeira Página</title>\n</head>\n<body>\n  <h1>Olá, Mundo!</h1>\n  <p>Esta é minha primeira página web.</p>\n</body>\n</html>`, css:`body {\n  font-family: sans-serif;\n  padding: 24px;\n  background: #f8fafc;\n}\nh1 { color: #4f46e5; }`, js:`console.log('HTML carregado! 🎉');` },
+        code:{ html:`<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n  <meta charset="UTF-8">\n  <title>Minha Primeira Página</title>\n</head>\n<body>\n  <h1>Olá, Mundo!</h1>\n  <p>Esta é minha primeira página web.</p>\n</body>\n</html>`, css:`body {\n  font-family: sans-serif;\n  padding: 24px;\n  background: #f8fafc;\n}\nh1 { color: #4f46e5; }`, js:`console.log('HTML carregado!');` },
+        quiz:[
+          { q:'Qual tag define o título principal visível na página?', opts:['&lt;head&gt;','&lt;title&gt;','&lt;h1&gt;','&lt;header&gt;'], c:2, exp:'A tag h1 define o título principal visível. A tag title define o nome na aba do navegador.' },
+          { q:'Onde deve ficar o conteúdo visível de uma página HTML?', opts:['Dentro de &lt;head&gt;','Dentro de &lt;html&gt; direto','Dentro de &lt;body&gt;','Dentro de &lt;title&gt;'], c:2, exp:'A tag body contém tudo que aparece na tela. A tag head contém metadados invisíveis.' },
+          { q:'Quantas vezes a tag &lt;h1&gt; deve aparecer em uma página?', opts:['Quantas vezes quiser','Apenas uma vez','No mínimo duas','Nunca'], c:1, exp:'Cada página deve ter apenas um h1, representando o título principal. Isso é importante para SEO e acessibilidade.' },
+          { q:'Para que serve o &lt;!DOCTYPE html&gt;?', opts:['Cria um comentário','Diz ao navegador que o documento é HTML5','Define o idioma da página','Importa um arquivo CSS'], c:1, exp:'O DOCTYPE informa ao navegador que deve interpretar o documento como HTML5, ativando o modo padrão.' }
+        ],
         content:`
 <h3>O que é HTML?</h3>
-<p>HTML significa <strong>HyperText Markup Language</strong> — é a linguagem que <em>estrutura</em> todas as páginas da internet. Pense nela como o esqueleto de uma página: define o que é um título, o que é um parágrafo, o que é um link.</p>
+<p>HTML significa <strong>HyperText Markup Language</strong>. É a linguagem que <em>estrutura</em> todas as páginas da internet. Pense nela como o esqueleto de uma página: define o que é um título, o que é um parágrafo, o que é um link.</p>
 <h3>Tags: a unidade básica do HTML</h3>
-<p>Tudo em HTML são <strong>tags</strong> — etiquetas que dizem ao navegador o que cada coisa é. A maioria tem abertura e fechamento:</p>
+<p>Tudo em HTML são <strong>tags</strong>. A maioria tem abertura e fechamento:</p>
 <pre class="code-block"><span class="tag">&lt;h1&gt;</span>Este é um título<span class="tag">&lt;/h1&gt;</span>
 <span class="tag">&lt;p&gt;</span>Este é um parágrafo.<span class="tag">&lt;/p&gt;</span></pre>
 <h3>A estrutura mínima obrigatória</h3>
-<p>Todo documento HTML precisa desta estrutura base:</p>
-<pre class="code-block"><span class="tag">&lt;!DOCTYPE html&gt;</span>   <span class="cm">&lt;!-- diz ao navegador: "sou HTML5" --&gt;</span>
-<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"pt-BR"</span><span class="tag">&gt;</span>   <span class="cm">&lt;!-- raiz de tudo --&gt;</span>
-  <span class="tag">&lt;head&gt;</span>            <span class="cm">&lt;!-- informações sobre a página --&gt;</span>
-    <span class="tag">&lt;title&gt;</span>Nome<span class="tag">&lt;/title&gt;</span>
+<p>Todo documento HTML precisa desta estrutura base. No Editor, você pode digitar <strong>!</strong> e pressionar <strong>Tab</strong> para gerá-la automaticamente:</p>
+<pre class="code-block"><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"pt-BR"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Nome da Página<span class="tag">&lt;/title&gt;</span>
   <span class="tag">&lt;/head&gt;</span>
-  <span class="tag">&lt;body&gt;</span>            <span class="cm">&lt;!-- o que aparece na tela --&gt;</span>
+  <span class="tag">&lt;body&gt;</span>
     <span class="tag">&lt;h1&gt;</span>Olá!<span class="tag">&lt;/h1&gt;</span>
   <span class="tag">&lt;/body&gt;</span>
 <span class="tag">&lt;/html&gt;</span></pre>
 <h3>Cabeçalhos: h1 até h6</h3>
-<p>Existem 6 níveis de título, do mais importante ao menos importante. Use <code>&lt;h1&gt;</code> para o título principal, <code>&lt;h2&gt;</code> para seções, etc.</p>
-<pre class="code-block"><span class="tag">&lt;h1&gt;</span>Título Principal<span class="tag">&lt;/h1&gt;</span>
-<span class="tag">&lt;h2&gt;</span>Subtítulo<span class="tag">&lt;/h2&gt;</span>
-<span class="tag">&lt;h3&gt;</span>Sub-subtítulo<span class="tag">&lt;/h3&gt;</span></pre>
+<p>Existem 6 níveis de título. Use <code>&lt;h1&gt;</code> para o título principal, <code>&lt;h2&gt;</code> para seções, e assim por diante.</p>
 <div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#92400e">
-  <strong>💡 Dica:</strong> Cada página deve ter apenas UM <code>&lt;h1&gt;</code>. É como o nome do livro — só pode ter um!
+  <strong>Dica:</strong> Cada página deve ter apenas UM h1. É como o nome do livro, só pode ter um!
 </div>`
       },
       {
         id:'m1l2', title:'1.2 Listas, Links e Imagens',
-        code:{ html:`<h2>Minha Lista de Tecnologias</h2>\n<ul>\n  <li>HTML5</li>\n  <li>CSS3</li>\n  <li>JavaScript</li>\n</ul>\n\n<h2>Link Externo</h2>\n<a href="https://www.google.com" target="_blank">Abrir Google</a>\n\n<h2>Imagem</h2>\n<img src="https://dummyimage.com/200x100/000/fff.png&text=Teste" alt="Imagem de exemplo">`, css:`body { font-family: sans-serif; padding: 20px; }\na { color: #4f46e5; }\nimg { border-radius: 8px; margin-top: 8px; }`, js:`` },
+        code:{ html:`<h2>Minha Lista de Tecnologias</h2>\n<ul>\n  <li>HTML5</li>\n  <li>CSS3</li>\n  <li>JavaScript</li>\n</ul>\n\n<h2>Link Externo</h2>\n<a href="https://www.google.com" target="_blank">Abrir Google</a>\n\n<h2>Imagem</h2>\n<img src="https://dummyimage.com/200x100/4f46e5/fff.png&text=Minha+Imagem" alt="Imagem de exemplo">`, css:`body { font-family: sans-serif; padding: 20px; }\na { color: #4f46e5; }\nimg { border-radius: 8px; margin-top: 8px; }`, js:`` },
+        quiz:[
+          { q:'Para que serve o atributo href na tag &lt;a&gt;?', opts:['Define a cor do link','Define o destino do link','Define o tamanho do texto','Define se abre em nova aba'], c:1, exp:'O atributo href define para onde o link leva o usuário quando clicado.' },
+          { q:'Qual é a tag correta para criar uma lista sem numeração?', opts:['&lt;ol&gt;','&lt;list&gt;','&lt;ul&gt;','&lt;li&gt;'], c:2, exp:'ul (unordered list) cria listas com marcadores. ol (ordered list) cria listas numeradas. li é o item dentro dessas listas.' },
+          { q:'O atributo "alt" na tag &lt;img&gt; serve para:', opts:['Definir o tamanho da imagem','Descrever a imagem para acessibilidade','Definir a borda da imagem','Linkar outra imagem'], c:1, exp:'O alt fornece texto alternativo para imagens, crucial para leitores de tela e quando a imagem não carrega.' },
+          { q:'O que faz o atributo target="_blank" em um link?', opts:['Abre o link em uma nova aba','Fecha o link atual','Faz o link piscar','Desativa o link'], c:0, exp:'target="_blank" instrui o navegador a abrir o link em uma nova aba ou janela.' }
+        ],
         content:`
 <h3>Listas não ordenadas e ordenadas</h3>
-<p>Use <code>&lt;ul&gt;</code> (unordered list) para listas com bolinhas, e <code>&lt;ol&gt;</code> (ordered list) para listas numeradas. Cada item é um <code>&lt;li&gt;</code>:</p>
+<p>Use <code>&lt;ul&gt;</code> para listas com bolinhas e <code>&lt;ol&gt;</code> para listas numeradas. Cada item é um <code>&lt;li&gt;</code>:</p>
 <pre class="code-block"><span class="tag">&lt;ul&gt;</span>
   <span class="tag">&lt;li&gt;</span>HTML<span class="tag">&lt;/li&gt;</span>
   <span class="tag">&lt;li&gt;</span>CSS<span class="tag">&lt;/li&gt;</span>
@@ -278,240 +294,194 @@ const course = [
   <span class="tag">&lt;li&gt;</span>Segundo passo<span class="tag">&lt;/li&gt;</span>
 <span class="tag">&lt;/ol&gt;</span></pre>
 <h3>Links com &lt;a&gt;</h3>
-<p>A tag <code>&lt;a&gt;</code> cria um link. O atributo <code>href</code> é o endereço de destino. Use <code>target="_blank"</code> para abrir em nova aba:</p>
-<pre class="code-block"><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://google.com"</span> <span class="attr">target</span>=<span class="val">"_blank"</span><span class="tag">&gt;</span>
-  Abrir Google
-<span class="tag">&lt;/a&gt;</span></pre>
+<p>O atributo <code>href</code> define o destino. Use <code>target="_blank"</code> para abrir em nova aba:</p>
+<pre class="code-block"><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://google.com"</span> <span class="attr">target</span>=<span class="val">"_blank"</span><span class="tag">&gt;</span>Abrir Google<span class="tag">&lt;/a&gt;</span></pre>
 <h3>Imagens com &lt;img&gt;</h3>
-<p>A tag <code>&lt;img&gt;</code> não tem fechamento. O <code>src</code> é o caminho da imagem, e <code>alt</code> é o texto alternativo (importante para acessibilidade):</p>
+<p>A tag <code>&lt;img&gt;</code> não tem fechamento. O <code>alt</code> é obrigatório para acessibilidade:</p>
 <pre class="code-block"><span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"foto.jpg"</span> <span class="attr">alt</span>=<span class="val">"Descrição da foto"</span><span class="tag">&gt;</span></pre>
 <div style="background:#e0e7ff;border:1px solid #818cf8;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#3730a3">
-  <strong>🎯 Boa prática:</strong> Sempre preencha o atributo <code>alt</code> das imagens. Leitores de tela para deficientes visuais dependem disso!
+  <strong>Boa prática:</strong> Sempre preencha o alt das imagens. Leitores de tela para deficientes visuais dependem disso!
 </div>`
       },
       {
         id:'m1l3', title:'1.3 Formulários e Semântica',
         code:{ html:`<form>\n  <label for="nome">Seu nome:</label><br>\n  <input type="text" id="nome" placeholder="Ex: Ana Silva">\n  \n  <br><br>\n  <label for="email">E-mail:</label><br>\n  <input type="email" id="email" placeholder="seu@email.com">\n  \n  <br><br>\n  <label>Nível:</label><br>\n  <select id="nivel">\n    <option>Iniciante</option>\n    <option>Intermediário</option>\n    <option>Avançado</option>\n  </select>\n  \n  <br><br>\n  <button type="button" onclick="enviar()">Enviar</button>\n</form>`, css:`form { max-width: 320px; font-family: sans-serif; padding: 20px; }\nlabel { font-weight: bold; font-size: 0.9rem; }\ninput, select {\n  width: 100%;\n  padding: 8px;\n  margin-top: 4px;\n  border: 1px solid #cbd5e1;\n  border-radius: 6px;\n}\nbutton {\n  background: #4f46e5;\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  width: 100%;\n}`, js:`function enviar() {\n  const nome = document.getElementById('nome').value;\n  console.log('Nome digitado:', nome);\n  alert('Enviado! Olá, ' + nome);\n}` },
+        quiz:[
+          { q:'Qual tag semântica define a área de navegação principal?', opts:['&lt;menu&gt;','&lt;navbar&gt;','&lt;navigation&gt;','&lt;nav&gt;'], c:3, exp:'A tag nav é a tag semântica padrão para grupos de links de navegação principal.' },
+          { q:'Qual tipo de input valida automaticamente o formato de e-mail?', opts:['type="mail"','type="email"','type="text"','type="form"'], c:1, exp:'O type="email" faz o navegador verificar se o valor tem formato de e-mail antes do envio.' },
+          { q:'Por que conectar label e input com for e id?', opts:['Para mudar a cor','Para melhorar acessibilidade e usabilidade','Para adicionar CSS','Para criar animações'], c:1, exp:'Conectar label ao input melhora a acessibilidade para leitores de tela e permite clicar no label para focar o campo.' },
+          { q:'Qual tag cria um menu de opções para selecionar?', opts:['&lt;input type="menu"&gt;','&lt;options&gt;','&lt;select&gt;','&lt;dropdown&gt;'], c:2, exp:'A tag select cria um menu suspenso. Cada opção dentro dela é definida pela tag option.' }
+        ],
         content:`
 <h3>Tags semânticas do HTML5</h3>
-<p>HTML5 introduziu tags que descrevem o <em>significado</em> do conteúdo, não só sua aparência:</p>
+<p>HTML5 introduziu tags que descrevem o <em>significado</em> do conteúdo:</p>
 <ul>
-  <li><code>&lt;header&gt;</code> — cabeçalho da página ou seção</li>
-  <li><code>&lt;nav&gt;</code> — menu de navegação</li>
-  <li><code>&lt;main&gt;</code> — conteúdo principal</li>
-  <li><code>&lt;article&gt;</code> — artigo ou post independente</li>
-  <li><code>&lt;section&gt;</code> — seção temática</li>
-  <li><code>&lt;footer&gt;</code> — rodapé</li>
+  <li><code>&lt;header&gt;</code>, cabeçalho da página</li>
+  <li><code>&lt;nav&gt;</code>, menu de navegação</li>
+  <li><code>&lt;main&gt;</code>, conteúdo principal</li>
+  <li><code>&lt;article&gt;</code>, artigo independente</li>
+  <li><code>&lt;section&gt;</code>, seção temática</li>
+  <li><code>&lt;footer&gt;</code>, rodapé</li>
 </ul>
 <h3>Formulários</h3>
-<p>Formulários coletam dados do usuário. Os principais elementos são:</p>
 <pre class="code-block"><span class="tag">&lt;form&gt;</span>
   <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"campo"</span><span class="tag">&gt;</span>Nome:<span class="tag">&lt;/label&gt;</span>
   <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"campo"</span><span class="tag">&gt;</span>
   <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"button"</span><span class="tag">&gt;</span>Enviar<span class="tag">&lt;/button&gt;</span>
 <span class="tag">&lt;/form&gt;</span></pre>
-<h3>Tipos de &lt;input&gt;</h3>
+<h3>Tipos de input</h3>
 <ul>
-  <li><code>type="text"</code> — campo de texto simples</li>
-  <li><code>type="email"</code> — valida formato de e-mail</li>
-  <li><code>type="number"</code> — apenas números</li>
-  <li><code>type="checkbox"</code> — caixa de marcação</li>
-  <li><code>type="password"</code> — senha (oculta o texto)</li>
-</ul>
-<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#92400e">
-  <strong>💡 Dica:</strong> Sempre conecte <code>&lt;label&gt;</code> com <code>&lt;input&gt;</code> usando os atributos <code>for</code> e <code>id</code> iguais. Isso melhora a acessibilidade!
-</div>`
+  <li><code>type="text"</code>, campo de texto simples</li>
+  <li><code>type="email"</code>, valida formato de e-mail</li>
+  <li><code>type="number"</code>, apenas números</li>
+  <li><code>type="checkbox"</code>, caixa de marcação</li>
+  <li><code>type="password"</code>, senha (oculta o texto)</li>
+</ul>`
       }
-    ],
-    quiz:[
-      { q:'Qual tag define o título principal de uma página HTML?', opts:['&lt;head&gt;','&lt;title&gt;','&lt;h1&gt;','&lt;header&gt;'], c:2,
-        exp:'A tag &lt;h1&gt; define o título principal visível na página. &lt;title&gt; define o nome na aba do navegador. &lt;head&gt; e &lt;header&gt; têm funções diferentes.' },
-      { q:'Para que serve o atributo <code>href</code> na tag &lt;a&gt;?', opts:['Define a cor do link','Define o destino/endereço do link','Define o tamanho do texto','Define se o link abre em nova aba'], c:1,
-        exp:'O atributo href (Hypertext Reference) define para onde o link vai levar o usuário quando clicado.' },
-      { q:'Qual é a tag correta para criar uma lista NÃO numerada?', opts:['&lt;ol&gt;','&lt;list&gt;','&lt;ul&gt;','&lt;li&gt;'], c:2,
-        exp:'&lt;ul&gt; (unordered list) cria listas com marcadores. &lt;ol&gt; (ordered list) cria listas numeradas. &lt;li&gt; é o item dentro dessas listas.' },
-      { q:'O atributo "alt" na tag &lt;img&gt; serve para:', opts:['Definir o tamanho da imagem','Descrever a imagem para acessibilidade','Definir a borda da imagem','Linkar outra imagem'], c:1,
-        exp:'O atributo alt fornece um texto alternativo para imagens — crucial para leitores de tela usados por deficientes visuais e também quando a imagem não carrega.' },
-      { q:'Qual tag semântica do HTML5 define a área de navegação principal do site?', opts:['&lt;menu&gt;','&lt;navbar&gt;','&lt;navigation&gt;','&lt;nav&gt;'], c:3,
-        exp:'A tag &lt;nav&gt; é a tag semântica padrão para grupos de links de navegação principal.' },
-      { q:'Qual tipo de &lt;input&gt; valida automaticamente o formato de e-mail?', opts:['type="mail"','type="email"','type="text"','type="form"'], c:1,
-        exp:'O type="email" faz o navegador verificar automaticamente se o valor digitado tem o formato de e-mail antes do envio do formulário.' },
-      { q:'Quantas vezes a tag &lt;h1&gt; deve aparecer em uma página?', opts:['Quantas vezes quiser','Apenas uma vez','No mínimo duas','Nunca — use CSS para títulos'], c:1,
-        exp:'Cada página deve ter apenas um &lt;h1&gt;, representando o título principal. Isso é importante para SEO e acessibilidade.' },
-      { q:'Onde deve ficar o conteúdo visível de uma página HTML?', opts:['Dentro da tag &lt;head&gt;','Dentro da tag &lt;html&gt; direto','Dentro da tag &lt;body&gt;','Dentro da tag &lt;title&gt;'], c:2,
-        exp:'A tag &lt;body&gt; contém tudo que aparece visualmente na página. A tag &lt;head&gt; contém metadados e configurações invisíveis ao usuário.' }
     ]
   },
 
   // ── MÓDULO 2: CSS ───────────────────────────────────────────
   {
-    id:'mod2', title:'Módulo 2: CSS3 & Estilização',
+    id:'mod2', title:'Módulo 2: CSS3 e Estilização',
     icon:'fa-brands fa-css3-alt', color:'text-sky-500',
     lessons:[
       {
         id:'m2l1', title:'2.1 Seletores e Propriedades Básicas',
-        code:{ html:`<h1 class="titulo">Título Estilizado</h1>\n<p id="intro">Este parágrafo tem ID.</p>\n<p class="destaque">Este tem classe destaque.</p>\n<p>Este é um parágrafo normal.</p>`, css:`/* Seletor de tag */\nbody {\n  font-family: sans-serif;\n  padding: 24px;\n  background: #f8fafc;\n}\n\n/* Seletor de classe (.) */\n.titulo {\n  color: #4f46e5;\n  font-size: 2rem;\n  border-bottom: 3px solid #4f46e5;\n}\n\n/* Seletor de ID (#) */\n#intro {\n  background: #e0e7ff;\n  padding: 8px 12px;\n  border-radius: 6px;\n}\n\n/* Combinando */\n.destaque {\n  color: #dc2626;\n  font-weight: bold;\n}`, js:`` },
+        code:{ html:`<h1 class="titulo">Título Estilizado</h1>\n<p id="intro">Este parágrafo tem ID.</p>\n<p class="destaque">Este tem classe destaque.</p>\n<p>Este é um parágrafo normal.</p>`, css:`body {\n  font-family: sans-serif;\n  padding: 24px;\n  background: #f8fafc;\n}\n\n.titulo {\n  color: #4f46e5;\n  font-size: 2rem;\n  border-bottom: 3px solid #4f46e5;\n}\n\n#intro {\n  background: #e0e7ff;\n  padding: 8px 12px;\n  border-radius: 6px;\n}\n\n.destaque {\n  color: #dc2626;\n  font-weight: bold;\n}`, js:`` },
+        quiz:[
+          { q:'Qual propriedade CSS define a cor de um texto?', opts:['background-color','text-color','color','font-color'], c:2, exp:'A propriedade color define a cor do texto. background-color define a cor de fundo.' },
+          { q:'Qual seletor CSS aplica estilo a elementos com a classe "destaque"?', opts:['#destaque { }','.destaque { }','destaque { }','@destaque { }'], c:1, exp:'Seletores de classe usam ponto (.) antes do nome. Seletores de ID usam # (cerquilha).' },
+          { q:'O que significa a sigla CSS?', opts:['Creative Style Sheets','Cascading Style Sheets','Computer Style System','Content Style Script'], c:1, exp:'CSS significa Cascading Style Sheets (Folhas de Estilo em Cascata).' },
+          { q:'Qual seletor aplica estilo a um único elemento identificado por ID?', opts:['.meuId','meuId','#meuId','@meuId'], c:2, exp:'Seletores de ID usam # antes do nome e devem ser únicos na página.' }
+        ],
         content:`
 <h3>O que é CSS?</h3>
-<p>CSS (Cascading Style Sheets) é a linguagem que <em>estiliza</em> o HTML. Se HTML é o esqueleto, CSS é a roupa — define cores, tamanhos, espaçamentos e layout.</p>
-<h3>Onde escrever o CSS</h3>
-<p>Existem três formas, mas a melhor prática é um arquivo separado ou dentro da tag <code>&lt;style&gt;</code> no &lt;head&gt;:</p>
-<pre class="code-block"><span class="tag">&lt;head&gt;</span>
-  <span class="tag">&lt;style&gt;</span>
-    <span class="kw">h1</span> { <span class="attr">color</span>: <span class="val">blue</span>; }
-  <span class="tag">&lt;/style&gt;</span>
-<span class="tag">&lt;/head&gt;</span></pre>
+<p>CSS (Cascading Style Sheets) é a linguagem que <em>estiliza</em> o HTML. Se HTML é o esqueleto, CSS é a roupa: define cores, tamanhos, espaçamentos e layout.</p>
 <h3>Os 3 tipos de seletores principais</h3>
 <ul>
-  <li><strong>Tag:</strong> seleciona todos os elementos daquele tipo → <code>p { }</code></li>
-  <li><strong>Classe (.):</strong> seleciona elementos com aquela classe → <code>.destaque { }</code></li>
-  <li><strong>ID (#):</strong> seleciona UM elemento único → <code>#cabecalho { }</code></li>
+  <li><strong>Tag:</strong> seleciona todos os elementos daquele tipo, <code>p { }</code></li>
+  <li><strong>Classe (.):</strong> seleciona elementos com aquela classe, <code>.destaque { }</code></li>
+  <li><strong>ID (#):</strong> seleciona um elemento único, <code>#cabecalho { }</code></li>
 </ul>
-<pre class="code-block"><span class="cm">/* Seletor de tag */</span>
-<span class="kw">p</span> { <span class="attr">color</span>: <span class="val">gray</span>; }
-
-<span class="cm">/* Seletor de classe */</span>
+<pre class="code-block"><span class="kw">p</span> { <span class="attr">color</span>: <span class="val">gray</span>; }
 <span class="kw">.destaque</span> { <span class="attr">font-weight</span>: <span class="val">bold</span>; }
-
-<span class="cm">/* Seletor de ID */</span>
 <span class="kw">#titulo</span> { <span class="attr">font-size</span>: <span class="val">2rem</span>; }</pre>
 <h3>Propriedades mais usadas</h3>
 <ul>
-  <li><code>color</code> — cor do texto</li>
-  <li><code>background-color</code> — cor de fundo</li>
-  <li><code>font-size</code> — tamanho da fonte</li>
-  <li><code>font-weight</code> — negrito (bold) ou normal</li>
-  <li><code>border</code> — borda do elemento</li>
-  <li><code>border-radius</code> — arredondamento das bordas</li>
+  <li><code>color</code>, cor do texto</li>
+  <li><code>background-color</code>, cor de fundo</li>
+  <li><code>font-size</code>, tamanho da fonte</li>
+  <li><code>font-weight</code>, negrito (bold) ou normal</li>
+  <li><code>border</code>, borda do elemento</li>
+  <li><code>border-radius</code>, arredondamento das bordas</li>
 </ul>`
       },
       {
         id:'m2l2', title:'2.2 Box Model e Espaçamentos',
-        code:{ html:`<div class="caixa">Sou uma caixa CSS!</div>\n<div class="cartao">\n  <h3>Cartão de Estudo</h3>\n  <p>Box Model na prática.</p>\n</div>`, css:`body { font-family: sans-serif; padding: 20px; background: #f1f5f9; }\n\n.caixa {\n  background: #6366f1;\n  color: white;\n  padding: 16px;      /* espaço interno */\n  margin: 20px 0;     /* espaço externo */\n  border: 3px solid #4338ca;\n  border-radius: 8px;\n  width: 250px;\n}\n\n.cartao {\n  background: white;\n  padding: 24px;\n  margin: 10px 0;\n  border-radius: 12px;\n  border: 1px solid #e2e8f0;\n  box-shadow: 0 2px 8px rgba(0,0,0,.08);\n  max-width: 300px;\n}`, js:`` },
+        code:{ html:`<div class="caixa">Sou uma caixa CSS!</div>\n<div class="cartao">\n  <h3>Cartão de Estudo</h3>\n  <p>Box Model na prática.</p>\n</div>`, css:`body { font-family: sans-serif; padding: 20px; background: #f1f5f9; }\n\n.caixa {\n  background: #6366f1;\n  color: white;\n  padding: 16px;\n  margin: 20px 0;\n  border: 3px solid #4338ca;\n  border-radius: 8px;\n  width: 250px;\n}\n\n.cartao {\n  background: white;\n  padding: 24px;\n  margin: 10px 0;\n  border-radius: 12px;\n  border: 1px solid #e2e8f0;\n  box-shadow: 0 2px 8px rgba(0,0,0,.08);\n  max-width: 300px;\n}`, js:`` },
+        quiz:[
+          { q:'Qual propriedade CSS controla o espaço INTERNO entre o conteúdo e a borda?', opts:['margin','gap','padding','spacing'], c:2, exp:'Padding é o espaço interno (entre conteúdo e borda). Margin é o espaço externo (entre o elemento e outros).' },
+          { q:'O que faz "margin: 0 auto" em um elemento com width definido?', opts:['Remove todas as margens','Centraliza o elemento horizontalmente','Adiciona margem automática em todos os lados','Define margem zero em todo o elemento'], c:1, exp:'margin: 0 auto com width definido centraliza o elemento horizontalmente na página.' },
+          { q:'Qual propriedade cria uma sombra em um elemento?', opts:['text-shadow','shadow','box-shadow','element-shadow'], c:2, exp:'box-shadow adiciona sombra ao redor de um elemento. text-shadow adiciona sombra apenas ao texto.' },
+          { q:'Qual é a ordem correta das camadas do Box Model, de dentro para fora?', opts:['Margin, Border, Padding, Content','Content, Padding, Border, Margin','Border, Content, Margin, Padding','Padding, Content, Border, Margin'], c:1, exp:'O Box Model vai de dentro para fora: Content (conteúdo), Padding (espaço interno), Border (borda), Margin (espaço externo).' }
+        ],
         content:`
-<h3>O Box Model — a regra fundamental do CSS</h3>
+<h3>O Box Model</h3>
 <p>Todo elemento HTML é uma "caixa" com 4 camadas:</p>
 <div style="background:#1e293b;padding:1.5rem;border-radius:.75rem;margin:.75rem 0;text-align:center;font-family:monospace;font-size:.8rem">
   <div style="border:2px dashed #fbbf24;padding:.5rem;color:#fbbf24">MARGIN (espaço externo)
     <div style="border:2px solid #34d399;padding:.5rem;color:#34d399;margin:.5rem 0">BORDER (borda)
-      <div style="background:#6366f1;padding:.5rem;color:#fff;border-radius:.25rem">PADDING (espaço interno) → CONTENT</div>
+      <div style="background:#6366f1;padding:.5rem;color:#fff;border-radius:.25rem">PADDING (espaço interno) e CONTENT</div>
     </div>
   </div>
 </div>
 <ul>
   <li><strong>Content:</strong> o conteúdo real (texto, imagem)</li>
-  <li><strong>Padding:</strong> espaço entre conteúdo e borda (interno)</li>
-  <li><strong>Border:</strong> a borda visível ao redor</li>
-  <li><strong>Margin:</strong> espaço entre este elemento e os outros (externo)</li>
+  <li><strong>Padding:</strong> espaço entre conteúdo e borda</li>
+  <li><strong>Border:</strong> a borda visível</li>
+  <li><strong>Margin:</strong> espaço entre este elemento e os outros</li>
 </ul>
 <pre class="code-block"><span class="kw">.caixa</span> {
-  <span class="attr">padding</span>: <span class="val">16px</span>;           <span class="cm">/* 16px em todos os lados */</span>
-  <span class="attr">padding</span>: <span class="val">8px 16px</span>;      <span class="cm">/* vertical horizontal */</span>
-  <span class="attr">margin</span>: <span class="val">20px auto</span>;      <span class="cm">/* centraliza horizontalmente */</span>
-  <span class="attr">border</span>: <span class="val">2px solid blue</span>; <span class="cm">/* espessura tipo cor */</span>
-}</pre>
-<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#92400e">
-  <strong>💡 Dica:</strong> <code>box-shadow: 0 2px 8px rgba(0,0,0,0.1)</code> cria aquela sombra suave de "cartão" que você vê em muitos sites modernos!
-</div>`
+  <span class="attr">padding</span>: <span class="val">16px</span>;
+  <span class="attr">margin</span>: <span class="val">20px auto</span>;    <span class="cm">/* centraliza */</span>
+  <span class="attr">border</span>: <span class="val">2px solid blue</span>;
+}</pre>`
       },
       {
         id:'m2l3', title:'2.3 Flexbox: Layout Moderno',
-        code:{ html:`<div class="container">\n  <div class="item item-1">HTML</div>\n  <div class="item item-2">CSS</div>\n  <div class="item item-3">JS</div>\n</div>\n\n<div class="card-row">\n  <div class="card">🎨 Design</div>\n  <div class="card">💻 Código</div>\n  <div class="card">🚀 Deploy</div>\n</div>`, css:`body { font-family: sans-serif; padding: 20px; background: #f1f5f9; }\n\n/* Flex Container */\n.container {\n  display: flex;\n  justify-content: space-between; /* distribui horizontalmente */\n  align-items: center;            /* alinha verticalmente */\n  gap: 12px;\n  padding: 16px;\n  background: white;\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.item {\n  padding: 12px 24px;\n  color: white;\n  border-radius: 6px;\n  font-weight: bold;\n}\n.item-1 { background: #f59e0b; }\n.item-2 { background: #3b82f6; }\n.item-3 { background: #10b981; }\n\n.card-row { display: flex; gap: 12px; flex-wrap: wrap; }\n.card {\n  flex: 1;\n  min-width: 100px;\n  background: white;\n  padding: 16px;\n  border-radius: 8px;\n  text-align: center;\n  border: 1px solid #e2e8f0;\n}`, js:`` },
+        code:{ html:`<div class="container">\n  <div class="item item-1">HTML</div>\n  <div class="item item-2">CSS</div>\n  <div class="item item-3">JS</div>\n</div>`, css:`body { font-family: sans-serif; padding: 20px; background: #f1f5f9; }\n\n.container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 12px;\n  padding: 16px;\n  background: white;\n  border-radius: 8px;\n}\n\n.item {\n  padding: 12px 24px;\n  color: white;\n  border-radius: 6px;\n  font-weight: bold;\n}\n.item-1 { background: #f59e0b; }\n.item-2 { background: #3b82f6; }\n.item-3 { background: #10b981; }`, js:`` },
+        quiz:[
+          { q:'Para ativar o Flexbox em um container, qual propriedade deve ser usada?', opts:['position: flex','layout: flex','display: flex','flex: true'], c:2, exp:'"display: flex" transforma o elemento em um flex container.' },
+          { q:'Qual valor de justify-content centraliza os itens horizontalmente?', opts:['align-center','flex-center','space-center','center'], c:3, exp:'"justify-content: center" centraliza os itens no eixo principal (horizontal por padrão).' },
+          { q:'O que faz a propriedade "gap" no Flexbox?', opts:['Define o tamanho dos itens','Define o espaço entre os itens','Define a cor de fundo','Define a direção dos itens'], c:1, exp:'"gap" define o espaço entre os itens flex, substituindo o uso de margin entre eles.' },
+          { q:'Qual propriedade permite que os itens flex quebrem para a próxima linha?', opts:['flex-break: yes','flex-wrap: wrap','flex-direction: wrap','wrap: true'], c:1, exp:'"flex-wrap: wrap" permite que os itens quebrem para a linha seguinte quando não há espaço suficiente.' }
+        ],
         content:`
 <h3>O que é Flexbox?</h3>
-<p>Flexbox é um sistema CSS que facilita <em>distribuir e alinhar</em> elementos em uma linha ou coluna. É a base de praticamente todo layout moderno.</p>
-<h3>Ativando o Flexbox</h3>
-<p>Basta adicionar <code>display: flex</code> ao container pai:</p>
-<pre class="code-block"><span class="kw">.container</span> {
-  <span class="attr">display</span>: <span class="val">flex</span>;  <span class="cm">/* ativa o flexbox */</span>
-}</pre>
-<h3>Propriedades do container (pai)</h3>
-<ul>
-  <li><code>justify-content</code> — alinhamento horizontal: <code>flex-start</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code></li>
-  <li><code>align-items</code> — alinhamento vertical: <code>center</code>, <code>flex-start</code>, <code>stretch</code></li>
-  <li><code>flex-direction</code> — direção: <code>row</code> (horizontal) ou <code>column</code> (vertical)</li>
-  <li><code>gap</code> — espaço entre os itens</li>
-  <li><code>flex-wrap</code> — se os itens podem quebrar linha (<code>wrap</code>)</li>
-</ul>
+<p>Flexbox é um sistema CSS que facilita <em>distribuir e alinhar</em> elementos. É a base de praticamente todo layout moderno.</p>
 <pre class="code-block"><span class="kw">.container</span> {
   <span class="attr">display</span>: <span class="val">flex</span>;
   <span class="attr">justify-content</span>: <span class="val">space-between</span>;
   <span class="attr">align-items</span>: <span class="val">center</span>;
   <span class="attr">gap</span>: <span class="val">16px</span>;
-  <span class="attr">flex-wrap</span>: <span class="val">wrap</span>;  <span class="cm">/* itens quebram linha em telas pequenas */</span>
-}</pre>`
+  <span class="attr">flex-wrap</span>: <span class="val">wrap</span>;
+}</pre>
+<h3>Propriedades do container</h3>
+<ul>
+  <li><code>justify-content</code>, alinhamento horizontal: flex-start, center, space-between, space-around</li>
+  <li><code>align-items</code>, alinhamento vertical: center, flex-start, stretch</li>
+  <li><code>flex-direction</code>, direção: row (horizontal) ou column (vertical)</li>
+  <li><code>gap</code>, espaço entre os itens</li>
+  <li><code>flex-wrap</code>, permite quebrar linha (wrap)</li>
+</ul>`
       }
-    ],
-    quiz:[
-      { q:'Qual propriedade CSS define a cor de um texto?', opts:['background-color','text-color','color','font-color'], c:2,
-        exp:'A propriedade "color" define a cor do texto. "background-color" define a cor de fundo.' },
-      { q:'O que significa a sigla CSS?', opts:['Creative Style Sheets','Cascading Style Sheets','Computer Style System','Content Style Script'], c:1,
-        exp:'CSS significa Cascading Style Sheets (Folhas de Estilo em Cascata). O "cascading" refere-se à ordem em que os estilos são aplicados.' },
-      { q:'Qual seletor CSS aplica estilo a elementos com a classe "destaque"?', opts:['#destaque { }','.destaque { }','destaque { }','@destaque { }'], c:1,
-        exp:'Seletores de classe usam ponto (.) antes do nome. Seletores de ID usam # (hashtag).' },
-      { q:'Qual propriedade CSS controla o espaço INTERNO entre o conteúdo e a borda?', opts:['margin','gap','padding','spacing'], c:2,
-        exp:'Padding é o espaço interno (entre conteúdo e borda). Margin é o espaço externo (entre o elemento e outros elementos).' },
-      { q:'Para ativar o Flexbox em um container, qual propriedade deve ser usada?', opts:['position: flex','layout: flex','display: flex','flex: true'], c:2,
-        exp:'"display: flex" transforma o elemento em um flex container, ativando as propriedades Flexbox para seus filhos diretos.' },
-      { q:'Qual valor de justify-content centraliza os itens horizontalmente?', opts:['align-center','flex-center','space-center','center'], c:3,
-        exp:'"justify-content: center" centraliza os itens flex no eixo principal (horizontal por padrão).' },
-      { q:'A propriedade "border-radius" serve para:', opts:['Definir a espessura da borda','Arredondar os cantos do elemento','Criar uma borda pontilhada','Definir a cor da borda'], c:1,
-        exp:'"border-radius" arredonda os cantos de um elemento. Com border-radius: 50% você cria um círculo perfeito!' },
-      { q:'Qual é a forma correta de escrever um comentário em CSS?', opts:['// comentário','<!-- comentário -->','/* comentário */','# comentário'], c:2,
-        exp:'Comentários em CSS são escritos entre /* e */. Em HTML usa-se <!-- -->, e em JavaScript usa-se // ou /* */.' }
     ]
   },
 
-  // ── MÓDULO 3: JAVASCRIPT ────────────────────────────────────
+  // ── MÓDULO 3: JAVASCRIPT BASE ────────────────────────────────
   {
-    id:'mod3', title:'Módulo 3: JavaScript Interativo',
+    id:'mod3', title:'Módulo 3: JavaScript Básico',
     icon:'fa-brands fa-square-js', color:'text-yellow-500',
     lessons:[
       {
         id:'m3l1', title:'3.1 Variáveis, Tipos e Operadores',
-        code:{ html:`<h2>Calculadora Simples</h2>\n<input type="number" id="n1" placeholder="Número 1" style="padding:8px;margin:4px">\n<input type="number" id="n2" placeholder="Número 2" style="padding:8px;margin:4px">\n<br>\n<button onclick="somar()">Somar</button>\n<button onclick="multiplicar()">Multiplicar</button>\n<p id="resultado"></p>`, css:`body { font-family: sans-serif; padding: 20px; }\nbutton {\n  background: #4f46e5;\n  color: white;\n  padding: 8px 16px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  margin: 4px;\n}\n#resultado {\n  font-size: 1.2rem;\n  font-weight: bold;\n  color: #059669;\n  margin-top: 12px;\n}`, js:`function somar() {\n  const n1 = Number(document.getElementById('n1').value);\n  const n2 = Number(document.getElementById('n2').value);\n  const resultado = n1 + n2;\n  document.getElementById('resultado').textContent = 'Soma: ' + resultado;\n  console.log('Somando:', n1, '+', n2, '=', resultado);\n}\n\nfunction multiplicar() {\n  const n1 = Number(document.getElementById('n1').value);\n  const n2 = Number(document.getElementById('n2').value);\n  document.getElementById('resultado').textContent = 'Produto: ' + (n1 * n2);\n}` },
+        code:{ html:`<h2>Calculadora Simples</h2>\n<input type="number" id="n1" placeholder="Número 1" style="padding:8px;margin:4px">\n<input type="number" id="n2" placeholder="Número 2" style="padding:8px;margin:4px">\n<br>\n<button onclick="somar()">Somar</button>\n<button onclick="multiplicar()">Multiplicar</button>\n<p id="resultado"></p>`, css:`body { font-family: sans-serif; padding: 20px; }\nbutton {\n  background: #4f46e5;\n  color: white;\n  padding: 8px 16px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  margin: 4px;\n}\n#resultado { font-size: 1.2rem; font-weight: bold; color: #059669; }`, js:`function somar() {\n  const n1 = Number(document.getElementById('n1').value);\n  const n2 = Number(document.getElementById('n2').value);\n  const resultado = n1 + n2;\n  document.getElementById('resultado').textContent = 'Soma: ' + resultado;\n  console.log('Somando:', n1, '+', n2, '=', resultado);\n}\n\nfunction multiplicar() {\n  const n1 = Number(document.getElementById('n1').value);\n  const n2 = Number(document.getElementById('n2').value);\n  document.getElementById('resultado').textContent = 'Produto: ' + (n1 * n2);\n}` },
+        quiz:[
+          { q:'Qual palavra-chave declara uma variável que NÃO vai mudar de valor?', opts:['var','let','const','static'], c:2, exp:'"const" declara constantes. "let" é para variáveis que mudam. "var" é antigo e deve ser evitado.' },
+          { q:'O que console.log("Olá") faz?', opts:['Exibe um alerta','Imprime no Console do navegador','Cria um elemento HTML','Salva no localStorage'], c:1, exp:'console.log() imprime no Console do Desenvolvedor (F12). É a principal ferramenta de depuração.' },
+          { q:'Qual operador calcula o RESTO de uma divisão?', opts:['/','//','%','**'], c:2, exp:'O operador % (módulo) retorna o resto da divisão. Por exemplo, 7 % 3 = 1.' },
+          { q:'Qual é o resultado de "5" + 3 em JavaScript?', opts:['8','53','Erro','undefined'], c:1, exp:'Em JavaScript, somar uma string com número concatena. "5" + 3 vira "53". Use Number() para converter antes de somar.' }
+        ],
         content:`
-<h3>O que é JavaScript?</h3>
-<p>JavaScript é a linguagem que traz <strong>comportamento</strong> para a página. Se HTML é o esqueleto e CSS é a roupa, JS é o cérebro — responde a cliques, faz cálculos, atualiza o conteúdo sem recarregar a página.</p>
 <h3>Variáveis: guardando informações</h3>
-<p>Use <code>const</code> para valores que não mudam, e <code>let</code> para valores que podem mudar:</p>
-<pre class="code-block"><span class="kw">const</span> nome = <span class="str">'Ana'</span>;        <span class="cm">// texto (string)</span>
-<span class="kw">const</span> idade = 25;           <span class="cm">// número</span>
-<span class="kw">const</span> ativo = <span class="val">true</span>;         <span class="cm">// verdadeiro/falso (boolean)</span>
+<pre class="code-block"><span class="kw">const</span> nome = <span class="str">'Ana'</span>;
+<span class="kw">const</span> idade = 25;
+<span class="kw">const</span> ativo = <span class="val">true</span>;
 
-<span class="kw">let</span> pontos = 0;             <span class="cm">// vai mudar</span>
-pontos = pontos + 10;       <span class="cm">// agora pontos = 10</span></pre>
+<span class="kw">let</span> pontos = 0;
+pontos = pontos + 10;</pre>
 <h3>Operadores matemáticos</h3>
 <pre class="code-block"><span class="kw">const</span> soma  = 5 + 3;   <span class="cm">// 8</span>
 <span class="kw">const</span> sub   = 10 - 4;  <span class="cm">// 6</span>
 <span class="kw">const</span> mult  = 3 * 4;   <span class="cm">// 12</span>
 <span class="kw">const</span> div   = 10 / 2;  <span class="cm">// 5</span>
-<span class="kw">const</span> resto = 7 % 3;   <span class="cm">// 1 (módulo/resto)</span></pre>
-<h3>console.log — seu melhor amigo</h3>
-<p>Use <code>console.log()</code> para ver valores enquanto desenvolve. É como o "print" do Python:</p>
-<pre class="code-block">console.log(<span class="str">'Olá!'</span>);
-console.log(<span class="str">'Resultado:'</span>, 5 + 3);  <span class="cm">// Resultado: 8</span></pre>
+<span class="kw">const</span> resto = 7 % 3;   <span class="cm">// 1</span></pre>
 <div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#92400e">
-  <strong>💡 Dica:</strong> Evite <code>var</code> (antigo). Prefira sempre <code>const</code> e <code>let</code>!
+  <strong>Dica:</strong> Evite <code>var</code> (antigo). Prefira sempre <code>const</code> e <code>let</code>!
 </div>`
       },
       {
-        id:'m3l2', title:'3.2 Funções e Condicionais',
-        code:{ html:`<h2>Verificador de Nota</h2>\n<input type="number" id="nota" placeholder="Digite a nota (0-10)" max="10" min="0">\n<button onclick="verificar()">Verificar</button>\n<div id="resultado" style="margin-top:16px; padding:12px; border-radius:8px; display:none"></div>`, css:`body { font-family: sans-serif; padding: 24px; }\ninput { padding: 10px; font-size: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; width: 250px; }\nbutton { margin-left: 8px; padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; }`, js:`function verificar() {\n  const nota = Number(document.getElementById('nota').value);\n  const div = document.getElementById('resultado');\n  div.style.display = 'block';\n  \n  if (nota >= 7) {\n    div.textContent = '✅ Aprovado! Nota: ' + nota;\n    div.style.background = '#dcfce7';\n    div.style.color = '#166534';\n    div.style.border = '1px solid #86efac';\n    console.log('Status: APROVADO');\n  } else if (nota >= 5) {\n    div.textContent = '⚠️ Recuperação! Nota: ' + nota;\n    div.style.background = '#fef9c3';\n    div.style.color = '#854d0e';\n    div.style.border = '1px solid #fde047';\n  } else {\n    div.textContent = '❌ Reprovado! Nota: ' + nota;\n    div.style.background = '#fee2e2';\n    div.style.color = '#991b1b';\n    div.style.border = '1px solid #fca5a5';\n  }\n}` },
+        id:'m3l2', title:'3.2 Condicionais: if, else e switch',
+        code:{ html:`<h2>Verificador de Nota</h2>\n<input type="number" id="nota" placeholder="Digite a nota (0-10)" max="10" min="0">\n<button onclick="verificar()">Verificar</button>\n<div id="resultado" style="margin-top:16px;padding:12px;border-radius:8px;display:none"></div>`, css:`body { font-family: sans-serif; padding: 24px; }\ninput { padding: 10px; font-size: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; width: 250px; }\nbutton { margin-left: 8px; padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; }`, js:`function verificar() {\n  const nota = Number(document.getElementById('nota').value);\n  const div = document.getElementById('resultado');\n  div.style.display = 'block';\n\n  // if / else if / else\n  if (nota >= 7) {\n    div.textContent = 'Aprovado! Nota: ' + nota;\n    div.style.background = '#dcfce7';\n    div.style.color = '#166534';\n    div.style.border = '1px solid #86efac';\n  } else if (nota >= 5) {\n    div.textContent = 'Recuperacao! Nota: ' + nota;\n    div.style.background = '#fef9c3';\n    div.style.color = '#854d0e';\n    div.style.border = '1px solid #fde047';\n  } else {\n    div.textContent = 'Reprovado! Nota: ' + nota;\n    div.style.background = '#fee2e2';\n    div.style.color = '#991b1b';\n    div.style.border = '1px solid #fca5a5';\n  }\n\n  // switch: exibe mensagem por faixa\n  const faixa = Math.floor(nota / 2);\n  switch(faixa) {\n    case 5: console.log('Excelente!'); break;\n    case 4: console.log('Muito bom!'); break;\n    case 3: console.log('Bom!'); break;\n    default: console.log('Precisa melhorar.');\n  }\n}` },
+        quiz:[
+          { q:'Qual operador verifica igualdade de valor E tipo?', opts:['==','=','===','!=='], c:2, exp:'"===" (triplo igual) verifica valor e tipo. "==" só verifica valor e pode dar resultados inesperados.' },
+          { q:'Quando usar switch em vez de if/else?', opts:['Para comparações com intervalos','Para comparar uma variável com vários valores fixos','Para laços de repetição','Para declarar funções'], c:1, exp:'Switch é ideal quando uma mesma variável é comparada com vários valores fixos. Para intervalos (maior, menor), use if/else.' },
+          { q:'O que acontece se esquecer o "break" em um case do switch?', opts:['O programa para','O JS executa os cases seguintes também','Gera um erro','Nada muda'], c:1, exp:'Sem break, o JavaScript continua executando os cases seguintes mesmo sem correspondência (fall-through).' },
+          { q:'Qual operador representa o OU lógico?', opts:['&&','!!','||','??'], c:2, exp:'"||" é o operador OU. Retorna true se pelo menos um dos lados for verdadeiro. "&&" é o E lógico.' }
+        ],
         content:`
-<h3>Funções: blocos reutilizáveis</h3>
-<p>Uma função é um bloco de código com nome que pode ser executado quando chamado:</p>
-<pre class="code-block"><span class="cm">// Definindo a função</span>
-<span class="kw">function</span> saudar(nome) {
-  <span class="kw">const</span> mensagem = <span class="str">'Olá, '</span> + nome + <span class="str">'!'</span>;
-  console.log(mensagem);
-  <span class="kw">return</span> mensagem;  <span class="cm">// retorna o valor</span>
-}
-
-<span class="cm">// Chamando a função</span>
-saudar(<span class="str">'Ana'</span>);  <span class="cm">// → "Olá, Ana!"</span></pre>
-<h3>Condicionais: tomando decisões</h3>
-<p>O <code>if/else</code> executa código baseado em uma condição:</p>
+<h3>if, else if e else</h3>
 <pre class="code-block"><span class="kw">const</span> nota = 8;
 
 <span class="kw">if</span> (nota >= 7) {
@@ -521,204 +491,197 @@ saudar(<span class="str">'Ana'</span>);  <span class="cm">// → "Olá, Ana!"</s
 } <span class="kw">else</span> {
   console.log(<span class="str">'Reprovado'</span>);
 }</pre>
-<h3>Operadores de comparação</h3>
-<ul>
-  <li><code>===</code> — igual (valor E tipo)</li>
-  <li><code>!==</code> — diferente</li>
-  <li><code>&gt;</code> — maior que</li>
-  <li><code>&lt;</code> — menor que</li>
-  <li><code>&gt;=</code> — maior ou igual</li>
-  <li><code>&amp;&amp;</code> — E lógico</li>
-  <li><code>||</code> — OU lógico</li>
-</ul>
+<h3>switch: múltiplos casos fixos</h3>
+<pre class="code-block"><span class="kw">const</span> dia = <span class="str">'segunda'</span>;
+
+<span class="kw">switch</span> (dia) {
+  <span class="kw">case</span> <span class="str">'segunda'</span>:
+    console.log(<span class="str">'Início da semana'</span>);
+    <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="str">'sexta'</span>:
+    console.log(<span class="str">'Quase fim de semana!'</span>);
+    <span class="kw">break</span>;
+  <span class="kw">default</span>:
+    console.log(<span class="str">'Dia comum'</span>);
+}</pre>
 <div style="background:#e0e7ff;border:1px solid #818cf8;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#3730a3">
-  <strong>⚠️ Cuidado:</strong> Use <code>===</code> (triplo igual) em vez de <code>==</code>. O <code>==</code> pode dar resultados inesperados!
+  <strong>Atenção:</strong> Use <code>===</code> (triplo igual) em vez de <code>==</code>. O <code>==</code> pode dar resultados inesperados!
 </div>`
       },
       {
-        id:'m3l3', title:'3.3 DOM: Manipulando a Página',
-        code:{ html:`<h2>Lista de Tarefas</h2>\n<div style="display:flex;gap:8px;margin-bottom:16px">\n  <input type="text" id="tarefa" placeholder="Nova tarefa..." style="flex:1;padding:8px;border:1px solid #ccc;border-radius:6px">\n  <button onclick="adicionarTarefa()">Adicionar</button>\n</div>\n<ul id="lista"></ul>\n<p id="contagem" style="color:#6b7280;font-size:0.9rem">0 tarefas</p>`, css:`body { font-family: sans-serif; padding: 24px; max-width: 400px; }\nbutton { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }\nli { background: #f1f5f9; margin: 4px 0; padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; list-style: none; }\n.remover { background: #ef4444; color: white; border: none; border-radius: 4px; padding: 2px 8px; cursor: pointer; font-size: 0.8rem; }`, js:`let tarefas = [];\n\nfunction adicionarTarefa() {\n  const input = document.getElementById('tarefa');\n  const texto = input.value.trim();\n  \n  if (!texto) return; // ignora se vazio\n  \n  tarefas.push(texto);\n  input.value = ''; // limpa o campo\n  renderizarLista();\n  console.log('Tarefas:', tarefas);\n}\n\nfunction removerTarefa(index) {\n  tarefas.splice(index, 1);\n  renderizarLista();\n}\n\nfunction renderizarLista() {\n  const lista = document.getElementById('lista');\n  const contagem = document.getElementById('contagem');\n  \n  lista.innerHTML = tarefas.map((t, i) =>\n    \`<li>\${t} <button class="remover" onclick="removerTarefa(\${i})">✕</button></li>\`\n  ).join('');\n  \n  contagem.textContent = tarefas.length + ' tarefas';\n}` },
+        id:'m3l3', title:'3.3 Laços de Repetição: for e while',
+        code:{ html:`<h2>Tabuada</h2>\n<input type="number" id="num" placeholder="Número" style="padding:8px;width:120px">\n<button onclick="gerarTabuada()">Gerar</button>\n<ul id="resultado"></ul>`, css:`body { font-family: sans-serif; padding: 20px; }\nbutton { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; margin-left: 8px; }\nli { padding: 4px 0; color: #374151; }`, js:`function gerarTabuada() {\n  const num = Number(document.getElementById('num').value);\n  const lista = document.getElementById('resultado');\n  lista.innerHTML = '';\n\n  // for classico\n  for (let i = 1; i <= 10; i++) {\n    const li = document.createElement('li');\n    li.textContent = num + ' x ' + i + ' = ' + (num * i);\n    lista.appendChild(li);\n  }\n\n  // while: mostra no console ate chegar a 3\n  let contador = 1;\n  while (contador <= 3) {\n    console.log('Linha', contador, 'da tabuada:', num * contador);\n    contador++;\n  }\n}` },
+        quiz:[
+          { q:'Qual é a sintaxe correta do for clássico?', opts:['for (inicio; condição; passo)','for (condição; inicio; passo)','for (passo; condição; inicio)','for inicio until condição'], c:0, exp:'O for tem três partes: inicialização (let i = 0), condição (i < 10) e incremento (i++), separadas por ponto e vírgula.' },
+          { q:'Quando usar while em vez de for?', opts:['Sempre que possível','Quando não sabemos quantas vezes vamos repetir','Para percorrer arrays','Para somar números'], c:1, exp:'While é ideal quando não sabemos antecipadamente quantas repetições serão necessárias. For é melhor quando sabemos o número de iterações.' },
+          { q:'O que faz o i++ dentro de um for?', opts:['Decrementa i em 1','Multiplica i por 2','Incrementa i em 1','Reinicia i para zero'], c:2, exp:'i++ é um atalho para i = i + 1. Incrementa a variável em 1 a cada repetição do laço.' },
+          { q:'Qual laço garante que o código executa pelo menos uma vez?', opts:['for','while','do...while','foreach'], c:2, exp:'O do...while executa o bloco primeiro e depois verifica a condição, garantindo pelo menos uma execução.' }
+        ],
         content:`
-<h3>O que é o DOM?</h3>
-<p>DOM (Document Object Model) é a forma como o JavaScript "enxerga" a página HTML — como uma árvore de elementos que podem ser lidos e modificados.</p>
-<h3>Selecionando elementos</h3>
-<pre class="code-block"><span class="cm">// Por ID</span>
-<span class="kw">const</span> titulo = document.getElementById(<span class="str">'meu-titulo'</span>);
+<h3>Laço for</h3>
+<pre class="code-block"><span class="cm">// for (início; condição; passo)</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = 0; i < 5; i++) {
+  console.log(<span class="str">'Volta'</span>, i);
+}
+<span class="cm">// Volta 0, Volta 1, ..., Volta 4</span></pre>
+<h3>Laço while</h3>
+<pre class="code-block"><span class="kw">let</span> contador = 0;
 
-<span class="cm">// Por classe (retorna lista)</span>
-<span class="kw">const</span> botoes = document.querySelectorAll(<span class="str">'.botao'</span>);
+<span class="kw">while</span> (contador < 3) {
+  console.log(<span class="str">'Contando:'</span>, contador);
+  contador++;
+}</pre>
+<h3>for...of: percorrendo arrays</h3>
+<pre class="code-block"><span class="kw">const</span> frutas = [<span class="str">'maçã'</span>, <span class="str">'banana'</span>, <span class="str">'uva'</span>];
 
-<span class="cm">// Por seletor CSS (retorna o primeiro)</span>
-<span class="kw">const</span> p = document.querySelector(<span class="str">'p'</span>);</pre>
-<h3>Modificando elementos</h3>
-<pre class="code-block"><span class="kw">const</span> el = document.getElementById(<span class="str">'titulo'</span>);
-
-el.textContent = <span class="str">'Novo Texto'</span>;    <span class="cm">// muda o texto</span>
-el.style.color = <span class="str">'red'</span>;           <span class="cm">// muda o estilo</span>
-el.innerHTML = <span class="str">'&lt;b&gt;Negrito&lt;/b&gt;'</span>; <span class="cm">// insere HTML</span></pre>
-<h3>Eventos: respondendo ao usuário</h3>
-<pre class="code-block"><span class="kw">const</span> btn = document.getElementById(<span class="str">'meu-btn'</span>);
-
-btn.addEventListener(<span class="str">'click'</span>, <span class="kw">function</span>() {
-  console.log(<span class="str">'Clicado!'</span>);
-});
-
-<span class="cm">// ou com arrow function (ES6)</span>
-btn.addEventListener(<span class="str">'click'</span>, () => {
-  console.log(<span class="str">'Clicado!'</span>);
-});</pre>
-<div style="background:#dcfce7;border:1px solid #86efac;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#166534">
-  <strong>🎯 Padrão essencial:</strong> A lista de tarefas usa o padrão <strong>dados → função render() → HTML</strong>. Este é o mesmo conceito que frameworks modernos como React e Vue usam!
-</div>`
+<span class="kw">for</span> (<span class="kw">const</span> fruta <span class="kw">of</span> frutas) {
+  console.log(fruta);
+}</pre>`
       },
       {
-        id:'m3l4', title:'3.4 Arrays e Laços de Repetição',
-        code:{ html:`<h2>Turma de Alunos</h2>\n<div id="app">\n  <div style="display:flex;gap:8px;margin-bottom:16px">\n    <input id="nomeAluno" placeholder="Nome do aluno" style="flex:1;padding:8px;border:1px solid #ccc;border-radius:6px">\n    <input id="notaAluno" type="number" placeholder="Nota" max="10" style="width:80px;padding:8px;border:1px solid #ccc;border-radius:6px">\n    <button onclick="adicionarAluno()">+Adicionar</button>\n  </div>\n  <div id="turma"></div>\n  <div id="media" style="margin-top:12px;font-weight:bold;color:#4f46e5"></div>\n</div>`, css:`body { font-family: sans-serif; padding: 20px; }\nbutton { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }\n.aluno { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; margin: 4px 0; }\n.aprovado { border-left: 4px solid #10b981; }\n.reprovado { border-left: 4px solid #ef4444; }`, js:`const turma = [];\n\nfunction adicionarAluno() {\n  const nome = document.getElementById('nomeAluno').value.trim();\n  const nota = Number(document.getElementById('notaAluno').value);\n  \n  if (!nome || isNaN(nota)) return;\n  \n  turma.push({ nome, nota });\n  document.getElementById('nomeAluno').value = '';\n  document.getElementById('notaAluno').value = '';\n  \n  renderizarTurma();\n}\n\nfunction renderizarTurma() {\n  const div = document.getElementById('turma');\n  const mediaDiv = document.getElementById('media');\n  \n  // Mapeia array para HTML\n  div.innerHTML = turma.map(aluno => {\n    const classe = aluno.nota >= 7 ? 'aprovado' : 'reprovado';\n    const status = aluno.nota >= 7 ? '✅' : '❌';\n    return \`<div class="aluno \${classe}">\n      <span>\${aluno.nome}</span>\n      <span>\${status} Nota: \${aluno.nota}</span>\n    </div>\`;\n  }).join('');\n  \n  // Calcula média com reduce\n  if (turma.length > 0) {\n    const soma = turma.reduce((acc, a) => acc + a.nota, 0);\n    const media = (soma / turma.length).toFixed(1);\n    mediaDiv.textContent = \`Média da turma: \${media}\`;\n    console.log('Turma:', turma);\n  }\n}` },
+        id:'m3l4', title:'3.4 Funções',
+        code:{ html:`<h2>Calculadora de IMC</h2>\n<label>Peso (kg):<br>\n<input type="number" id="peso" placeholder="Ex: 70"></label><br><br>\n<label>Altura (m):<br>\n<input type="number" id="altura" placeholder="Ex: 1.75" step="0.01"></label><br><br>\n<button onclick="calcularIMC()">Calcular IMC</button>\n<div id="resultado" style="margin-top:16px"></div>`, css:`body { font-family: sans-serif; padding: 24px; max-width: 360px; }\ninput { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; margin-top: 4px; }\nbutton { background: #4f46e5; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; margin-top: 8px; }`, js:`// Função que calcula o IMC\nfunction calcularIMC() {\n  const peso = Number(document.getElementById('peso').value);\n  const altura = Number(document.getElementById('altura').value);\n\n  // Validação\n  if (!peso || !altura) {\n    alert('Preencha peso e altura!');\n    return;\n  }\n\n  const imc = calcular(peso, altura);\n  const classificacao = classificar(imc);\n  \n  const div = document.getElementById('resultado');\n  div.innerHTML = '<strong>IMC:</strong> ' + imc.toFixed(1) + '<br><strong>Classificação:</strong> ' + classificacao;\n  console.log('IMC calculado:', imc.toFixed(2));\n}\n\n// Função auxiliar que retorna o IMC\nfunction calcular(peso, altura) {\n  return peso / (altura * altura);\n}\n\n// Função auxiliar que classifica\nfunction classificar(imc) {\n  if (imc < 18.5) return 'Abaixo do peso';\n  if (imc < 25) return 'Peso normal';\n  if (imc < 30) return 'Sobrepeso';\n  return 'Obesidade';\n}` },
+        quiz:[
+          { q:'Para que serve a palavra-chave "return" em uma função?', opts:['Para parar o programa','Para retornar um valor e encerrar a função','Para chamar outra função','Para declarar uma variável'], c:1, exp:'"return" encerra a execução da função e retorna o valor especificado para quem a chamou.' },
+          { q:'Qual é a diferença entre declarar e chamar uma função?', opts:['São a mesma coisa','Declarar define o que ela faz; chamar executa ela','Chamar define; declarar executa','Não há diferença'], c:1, exp:'Declarar cria a função (function nomeFuncao() {}). Chamar executa ela (nomeFuncao()). Você pode chamar várias vezes.' },
+          { q:'O que é um parâmetro de função?', opts:['O nome da função','Uma variável local declarada com let','Uma variável que a função recebe quando é chamada','O valor retornado pela função'], c:2, exp:'Parâmetros são variáveis que a função recebe quando é chamada, permitindo passar informações para dentro dela.' },
+          { q:'Qual é a vantagem de separar o código em funções?', opts:['O código fica mais lento','O código fica reutilizável e organizado','O código ocupa menos memória','Não há vantagens'], c:1, exp:'Funções permitem reutilizar código sem repetição, organizar a lógica em blocos menores e facilitar a manutenção.' }
+        ],
+        content:`
+<h3>Funções: blocos reutilizáveis</h3>
+<pre class="code-block"><span class="cm">// Definindo</span>
+<span class="kw">function</span> saudar(nome) {
+  <span class="kw">return</span> <span class="str">'Olá, '</span> + nome + <span class="str">'!'</span>;
+}
+
+<span class="cm">// Chamando</span>
+console.log(saudar(<span class="str">'Ana'</span>));  <span class="cm">// Olá, Ana!</span></pre>
+<h3>Arrow function (ES6)</h3>
+<pre class="code-block"><span class="cm">// Forma tradicional</span>
+<span class="kw">function</span> dobrar(n) { <span class="kw">return</span> n * 2; }
+
+<span class="cm">// Arrow function</span>
+<span class="kw">const</span> dobrar = n => n * 2;
+console.log(dobrar(5));  <span class="cm">// 10</span></pre>
+<h3>Validação com return antecipado</h3>
+<pre class="code-block"><span class="kw">function</span> dividir(a, b) {
+  <span class="kw">if</span> (b === 0) {
+    console.log(<span class="str">'Divisão por zero!'</span>);
+    <span class="kw">return</span>;  <span class="cm">// encerra aqui</span>
+  }
+  <span class="kw">return</span> a / b;
+}</pre>`
+      }
+    ]
+  },
+
+  // ── MÓDULO 4: JAVASCRIPT AVANÇADO ───────────────────────────
+  {
+    id:'mod4', title:'Módulo 4: JavaScript Avançado',
+    icon:'fa-solid fa-code', color:'text-emerald-500',
+    lessons:[
+      {
+        id:'m4l1', title:'4.1 Arrays e Métodos Essenciais',
+        code:{ html:`<h2>Gerenciador de Notas</h2>\n<input type="number" id="nota" placeholder="Nota (0-10)" max="10" min="0" step="0.5" style="padding:8px;width:150px">\n<button onclick="adicionar()">Adicionar</button>\n<ul id="lista" style="margin-top:12px"></ul>\n<p id="estatisticas" style="font-weight:bold;color:#4f46e5"></p>`, css:`body { font-family: sans-serif; padding: 20px; }\nbutton { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; margin-left: 8px; }\nli { padding: 6px 0; color: #374151; display: flex; justify-content: space-between; align-items: center; }\n.aprovado { color: #16a34a; font-weight: bold; }\n.reprovado { color: #dc2626; font-weight: bold; }`, js:`const notas = [];\n\nfunction adicionar() {\n  const input = document.getElementById('nota');\n  const nota = Number(input.value);\n  if (isNaN(nota) || nota < 0 || nota > 10) return;\n  notas.push(nota);\n  input.value = '';\n  renderizar();\n}\n\nfunction renderizar() {\n  const lista = document.getElementById('lista');\n  const stats = document.getElementById('estatisticas');\n\n  // map: transforma cada nota em HTML\n  lista.innerHTML = notas.map((n, i) =>\n    '<li>' + n + ' <span class=\"' + (n >= 7 ? 'aprovado' : 'reprovado') + '\">' + (n >= 7 ? 'Aprovado' : 'Reprovado') + '</span></li>'\n  ).join('');\n\n  if (notas.length === 0) { stats.textContent = ''; return; }\n\n  // filter: somente aprovados\n  const aprovados = notas.filter(n => n >= 7);\n\n  // reduce: soma para calcular media\n  const soma = notas.reduce((acc, n) => acc + n, 0);\n  const media = (soma / notas.length).toFixed(1);\n\n  stats.textContent = 'Média: ' + media + ' | Aprovados: ' + aprovados.length + '/' + notas.length;\n  console.log('Notas:', notas);\n}` },
+        quiz:[
+          { q:'O que o método push() faz em um array?', opts:['Remove o último item','Adiciona um item ao final','Inverte o array','Ordena o array'], c:1, exp:'"push()" adiciona um ou mais itens ao final do array e retorna o novo tamanho.' },
+          { q:'O método filter() retorna:', opts:['Um único valor','Um novo array com os itens que passaram na condição','O índice do item encontrado','undefined'], c:1, exp:'"filter()" cria um novo array contendo apenas os itens para os quais a função retornou true.' },
+          { q:'O que faz o método map()?', opts:['Filtra itens','Transforma cada item criando um novo array','Remove itens duplicados','Ordena os itens'], c:1, exp:'"map()" cria um novo array aplicando uma função a cada item do array original.' },
+          { q:'O que faz reduce((acc, n) => acc + n, 0)?', opts:['Filtra números positivos','Multiplica todos','Soma todos os valores do array','Conta quantos itens há'], c:2, exp:'"reduce()" acumula valores. Começando em 0 (valor inicial) e somando cada item, calcula a soma total do array.' }
+        ],
         content:`
 <h3>Arrays: listas de dados</h3>
-<p>Arrays guardam múltiplos valores em ordem:</p>
 <pre class="code-block"><span class="kw">const</span> alunos = [<span class="str">'Ana'</span>, <span class="str">'Bruno'</span>, <span class="str">'Carla'</span>];
-<span class="kw">const</span> notas  = [8.5, 7.0, 9.2];
-
-console.log(alunos[0]);  <span class="cm">// 'Ana' (índice começa em 0)</span>
+console.log(alunos[0]);      <span class="cm">// 'Ana'</span>
 console.log(alunos.length);  <span class="cm">// 3</span></pre>
-<h3>Métodos essenciais de Array</h3>
+<h3>Métodos essenciais</h3>
 <pre class="code-block">alunos.push(<span class="str">'Diego'</span>);   <span class="cm">// adiciona ao final</span>
 alunos.pop();             <span class="cm">// remove o último</span>
 
 <span class="cm">// map: transforma cada item</span>
-<span class="kw">const</span> maiusculas = alunos.map(a => a.toUpperCase());
+<span class="kw">const</span> maiusc = alunos.map(a => a.toUpperCase());
 
 <span class="cm">// filter: filtra por condição</span>
-<span class="kw">const</span> aprovados = notas.filter(n => n >= 7);
+<span class="kw">const</span> aprov = notas.filter(n => n >= 7);
 
 <span class="cm">// reduce: reduz a um único valor</span>
-<span class="kw">const</span> soma = notas.reduce((acc, n) => acc + n, 0);</pre>
-<h3>Laço for...of</h3>
-<pre class="code-block"><span class="kw">for</span> (<span class="kw">const</span> aluno <span class="kw">of</span> alunos) {
-  console.log(<span class="str">'Aluno:'</span>, aluno);
-}
+<span class="kw">const</span> soma = notas.reduce((acc, n) => acc + n, 0);</pre>`
+      },
+      {
+        id:'m4l2', title:'4.2 Manipulando o DOM',
+        code:{ html:`<h2>Lista de Tarefas</h2>\n<div style="display:flex;gap:8px;margin-bottom:16px">\n  <input type="text" id="tarefa" placeholder="Nova tarefa..." style="flex:1;padding:8px;border:1px solid #ccc;border-radius:6px">\n  <button onclick="adicionarTarefa()">Adicionar</button>\n</div>\n<ul id="lista"></ul>\n<p id="contagem" style="color:#6b7280;font-size:0.9rem">0 tarefas</p>`, css:`body { font-family: sans-serif; padding: 24px; max-width: 400px; }\nbutton { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; }\nli { background: #f1f5f9; margin: 4px 0; padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; list-style: none; }\n.remover { background: #ef4444; color: white; border: none; border-radius: 4px; padding: 2px 8px; cursor: pointer; font-size: 0.8rem; }`, js:`let tarefas = [];\n\nfunction adicionarTarefa() {\n  const input = document.getElementById('tarefa');\n  const texto = input.value.trim();\n  if (!texto) return;\n  tarefas.push(texto);\n  input.value = '';\n  renderizarLista();\n  console.log('Tarefas:', tarefas);\n}\n\nfunction removerTarefa(index) {\n  tarefas.splice(index, 1);\n  renderizarLista();\n}\n\nfunction renderizarLista() {\n  const lista = document.getElementById('lista');\n  const contagem = document.getElementById('contagem');\n  lista.innerHTML = tarefas.map((t, i) =>\n    '<li>' + t + ' <button class=\"remover\" onclick=\"removerTarefa(' + i + ')\">x</button></li>'\n  ).join('');\n  contagem.textContent = tarefas.length + ' tarefas';\n}` },
+        quiz:[
+          { q:'Qual método seleciona um elemento pelo seu ID?', opts:['document.querySelector()','document.getElement()','document.getElementById()','document.findById()'], c:2, exp:'document.getElementById("meu-id") retorna o elemento com aquele ID.' },
+          { q:'O que faz element.textContent = "Texto"?', opts:['Cria um novo elemento','Altera o texto visível do elemento','Remove o elemento','Adiciona uma classe'], c:1, exp:'"textContent" define ou retorna o texto de um elemento, sem interpretar HTML.' },
+          { q:'Qual propriedade permite inserir HTML dentro de um elemento?', opts:['textContent','innerText','innerHTML','htmlContent'], c:2, exp:'"innerHTML" permite definir ou ler o conteúdo HTML de um elemento, incluindo tags.' },
+          { q:'O que faz element.style.color = "red"?', opts:['Adiciona uma classe CSS red','Altera a cor do texto via JavaScript','Remove o elemento da página','Cria uma nova regra CSS'], c:1, exp:'Através de element.style, podemos alterar qualquer propriedade CSS diretamente pelo JavaScript.' }
+        ],
+        content:`
+<h3>O que é o DOM?</h3>
+<p>DOM (Document Object Model) é a representação da página HTML como uma árvore de objetos que o JavaScript pode ler e modificar.</p>
+<h3>Selecionando elementos</h3>
+<pre class="code-block"><span class="cm">// Por ID</span>
+<span class="kw">const</span> titulo = document.getElementById(<span class="str">'meu-titulo'</span>);
 
-<span class="cm">// forEach (mais moderno)</span>
-alunos.forEach(aluno => {
-  console.log(aluno);
-});</pre>
-<h3>Array de objetos</h3>
-<pre class="code-block"><span class="kw">const</span> turma = [
-  { nome: <span class="str">'Ana'</span>, nota: 8.5 },
-  { nome: <span class="str">'Bruno'</span>, nota: 7.0 },
-];
-
-turma.forEach(aluno => {
-  console.log(aluno.nome, <span class="str">'-'</span>, aluno.nota);
+<span class="cm">// Por seletor CSS</span>
+<span class="kw">const</span> btn = document.querySelector(<span class="str">'.botao'</span>);
+<span class="kw">const</span> todos = document.querySelectorAll(<span class="str">'li'</span>);</pre>
+<h3>Modificando elementos</h3>
+<pre class="code-block">el.textContent = <span class="str">'Novo Texto'</span>;
+el.style.color = <span class="str">'red'</span>;
+el.innerHTML = <span class="str">'&lt;b&gt;Negrito&lt;/b&gt;'</span>;</pre>
+<h3>Eventos</h3>
+<pre class="code-block">btn.addEventListener(<span class="str">'click'</span>, () => {
+  console.log(<span class="str">'Clicado!'</span>);
 });</pre>`
       }
-    ],
-    quiz:[
-      { q:'Qual palavra-chave é recomendada para declarar uma variável que NÃO vai mudar de valor?', opts:['var','let','const','static'], c:2,
-        exp:'"const" declara constantes (valores que não podem ser reatribuídos). "let" é para variáveis que mudam. "var" é antigo e deve ser evitado.' },
-      { q:'Qual método JavaScript seleciona um elemento HTML pelo seu atributo "id"?', opts:['document.querySelector()','document.getElement()','document.getElementById()','document.findById()'], c:2,
-        exp:'document.getElementById("meu-id") retorna o elemento com aquele ID. É o seletor mais rápido e específico.' },
-      { q:'O que o código <code>console.log("Olá")</code> faz?', opts:['Exibe um alerta na tela','Imprime "Olá" no Console do navegador','Cria um elemento HTML','Salva "Olá" no localStorage'], c:1,
-        exp:'console.log() imprime valores no Console do Desenvolvedor (F12 no navegador). É a ferramenta principal de debug.' },
-      { q:'Qual operador de comparação verifica se dois valores são IGUAIS em valor E tipo?', opts:['==','=','===','!=='], c:2,
-        exp:'"===" (triplo igual) verifica valor e tipo. "==" só verifica valor (pode dar resultados inesperados). "=" é atribuição, não comparação.' },
-      { q:'O que o método <code>array.push(item)</code> faz?', opts:['Remove o último item do array','Adiciona um item ao início do array','Adiciona um item ao final do array','Busca um item no array'], c:2,
-        exp:'"push" adiciona um ou mais itens ao final do array. Para remover o último item, use "pop". Para adicionar no início, use "unshift".' },
-      { q:'Qual método de array transforma cada item em um novo valor?', opts:['filter()','reduce()','map()','forEach()'], c:2,
-        exp:'"map()" cria um novo array transformando cada item. "filter()" filtra itens. "reduce()" reduz a um valor. "forEach()" apenas itera sem criar novo array.' },
-      { q:'Como adicionar um evento de clique a um botão em JavaScript?', opts:['btn.onClick = function(){}','btn.addEventListener("click", function(){})','btn.addEvent("click", function(){})','btn.on("click", function(){})'], c:1,
-        exp:'"addEventListener" é o método padrão moderno para adicionar eventos. O primeiro argumento é o tipo do evento ("click", "input", etc.) e o segundo é a função a executar.' },
-      { q:'O que significa DOM?', opts:['Document Object Model','Data Object Method','Dynamic Output Mode','Document Order Map'], c:0,
-        exp:'DOM (Document Object Model) é a representação da página HTML como uma árvore de objetos que o JavaScript pode ler e manipular.' }
     ]
   },
 
-  // ── MÓDULO 4: PROJETO FINAL ─────────────────────────────────
+  // ── MÓDULO 5: PROJETO FINAL ──────────────────────────────────
   {
-    id:'mod4', title:'Módulo 4: Projeto Final & GitHub Pages',
-    icon:'fa-brands fa-github', color:'text-emerald-500',
+    id:'mod5', title:'Módulo 5: Projeto Final e GitHub Pages',
+    icon:'fa-brands fa-github', color:'text-violet-500',
     lessons:[
       {
-        id:'m4l1', title:'4.1 Projeto: App de Cadastro',
-        code:{ html:`<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n  <meta charset="UTF-8">\n  <title>Cadastro de Alunos</title>\n  <style>\n    * { box-sizing: border-box; }\n    body {\n      font-family: 'Segoe UI', sans-serif;\n      background: #f1f5f9;\n      margin: 0;\n      padding: 20px;\n    }\n    .container {\n      max-width: 500px;\n      margin: 0 auto;\n      background: white;\n      padding: 24px;\n      border-radius: 16px;\n      box-shadow: 0 4px 20px rgba(0,0,0,.08);\n    }\n    h1 { color: #4f46e5; margin: 0 0 20px; font-size: 1.4rem; }\n    label { font-size:.85rem; font-weight:600; color:#374151; }\n    input {\n      width: 100%;\n      padding: 10px;\n      border: 1px solid #d1d5db;\n      border-radius: 8px;\n      margin: 4px 0 12px;\n      font-size: .95rem;\n    }\n    button {\n      width: 100%;\n      padding: 12px;\n      background: #4f46e5;\n      color: white;\n      border: none;\n      border-radius: 8px;\n      font-size: 1rem;\n      font-weight: 600;\n      cursor: pointer;\n    }\n    button:hover { background: #4338ca; }\n    #lista { margin-top: 20px; }\n    .card {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      padding: 10px 14px;\n      background: #f8fafc;\n      border: 1px solid #e2e8f0;\n      border-radius: 8px;\n      margin: 6px 0;\n    }\n    .nome { font-weight: 600; }\n    .nota {\n      background: #4f46e5;\n      color: white;\n      padding: 2px 10px;\n      border-radius: 99px;\n      font-size: .85rem;\n    }\n    #media {\n      margin-top: 12px;\n      padding: 10px;\n      background: #e0e7ff;\n      color: #3730a3;\n      border-radius: 8px;\n      font-weight: 600;\n      text-align: center;\n    }\n  </style>\n</head>\n<body>\n  <div class="container">\n    <h1>📚 Cadastro de Alunos</h1>\n    <label>Nome do Aluno</label>\n    <input type="text" id="nome" placeholder="Ex: Ana Silva">\n    <label>Nota Final (0-10)</label>\n    <input type="number" id="nota" placeholder="Ex: 8.5" min="0" max="10" step="0.5">\n    <button onclick="cadastrar()">Cadastrar Aluno</button>\n    <div id="lista"></div>\n    <div id="media" style="display:none"></div>\n  </div>\n</body>\n</html>`, css:``, js:`const alunos = [];\n\nfunction cadastrar() {\n  const nome = document.getElementById('nome').value.trim();\n  const nota = parseFloat(document.getElementById('nota').value);\n  \n  if (!nome || isNaN(nota)) {\n    alert('Preencha nome e nota!');\n    return;\n  }\n  \n  alunos.push({ nome, nota });\n  document.getElementById('nome').value = '';\n  document.getElementById('nota').value = '';\n  \n  renderizar();\n}\n\nfunction renderizar() {\n  const lista = document.getElementById('lista');\n  const mediaEl = document.getElementById('media');\n  \n  lista.innerHTML = alunos\n    .sort((a, b) => b.nota - a.nota)\n    .map(a => \`\n      <div class="card">\n        <span class="nome">\${a.nome}</span>\n        <span class="nota">\${a.nota >= 7 ? '✅' : '❌'} \${a.nota}\</span>\n      </div>\n    \`).join('');\n  \n  const media = alunos.reduce((s, a) => s + a.nota, 0) / alunos.length;\n  mediaEl.style.display = 'block';\n  mediaEl.textContent = \`Média da turma: \${media.toFixed(2)} | \${alunos.length} alunos\`;\n}` },
+        id:'m5l1', title:'5.1 Projeto: App de Cadastro de Alunos',
+        code:{ html:`<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n  <meta charset="UTF-8">\n  <title>Cadastro de Alunos</title>\n  <style>\n    * { box-sizing: border-box; }\n    body { font-family: 'Segoe UI', sans-serif; background: #f1f5f9; margin: 0; padding: 20px; }\n    .container { max-width: 500px; margin: 0 auto; background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,.08); }\n    h1 { color: #4f46e5; margin: 0 0 20px; font-size: 1.4rem; }\n    label { font-size:.85rem; font-weight:600; color:#374151; }\n    input { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; margin: 4px 0 12px; font-size: .95rem; }\n    button { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }\n    button:hover { background: #4338ca; }\n    #lista { margin-top: 20px; }\n    .card { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin: 6px 0; }\n    .nome { font-weight: 600; }\n    .nota { background: #4f46e5; color: white; padding: 2px 10px; border-radius: 99px; font-size: .85rem; }\n    #media { margin-top: 12px; padding: 10px; background: #e0e7ff; color: #3730a3; border-radius: 8px; font-weight: 600; text-align: center; }\n  </style>\n</head>\n<body>\n  <div class="container">\n    <h1>Cadastro de Alunos</h1>\n    <label>Nome do Aluno</label>\n    <input type="text" id="nome" placeholder="Ex: Ana Silva">\n    <label>Nota Final (0-10)</label>\n    <input type="number" id="nota" placeholder="Ex: 8.5" min="0" max="10" step="0.5">\n    <button onclick="cadastrar()">Cadastrar Aluno</button>\n    <div id="lista"></div>\n    <div id="media" style="display:none"></div>\n  </div>\n</body>\n</html>`, css:``, js:`const alunos = [];\n\nfunction cadastrar() {\n  const nome = document.getElementById('nome').value.trim();\n  const nota = parseFloat(document.getElementById('nota').value);\n  if (!nome || isNaN(nota)) { alert('Preencha nome e nota!'); return; }\n  alunos.push({ nome, nota });\n  document.getElementById('nome').value = '';\n  document.getElementById('nota').value = '';\n  renderizar();\n}\n\nfunction renderizar() {\n  const lista = document.getElementById('lista');\n  const mediaEl = document.getElementById('media');\n  lista.innerHTML = alunos\n    .sort((a, b) => b.nota - a.nota)\n    .map(a => '<div class=\"card\"><span class=\"nome\">' + a.nome + '</span><span class=\"nota\">' + (a.nota >= 7 ? 'OK ' : 'X ') + a.nota + '</span></div>')\n    .join('');\n  const media = alunos.reduce((s, a) => s + a.nota, 0) / alunos.length;\n  mediaEl.style.display = 'block';\n  mediaEl.textContent = 'Média: ' + media.toFixed(2) + ' | ' + alunos.length + ' alunos';\n}` },
+        quiz:[
+          { q:'Qual deve ser o nome exato do arquivo HTML para o GitHub Pages funcionar?', opts:['home.html','main.html','index.html','app.html'], c:2, exp:'O GitHub Pages procura automaticamente por "index.html" na raiz do repositório.' },
+          { q:'O padrão "dados, ação, render()" usado no projeto é a base de:', opts:['Apenas JavaScript puro','Frameworks como React e Vue','Apenas CSS','HTML semântico'], c:1, exp:'Este padrão estado, ação, renderização é exatamente o modelo usado por React, Vue, Angular e outros frameworks.' },
+          { q:'Para publicar no GitHub Pages, o repositório precisa ser:', opts:['Privado e pago','Público (ou privado com plano Pro)','Pertencer a uma organização','Ter mais de 10 arquivos'], c:1, exp:'Repositórios públicos têm acesso ao GitHub Pages gratuitamente.' },
+          { q:'Onde nas configurações do GitHub você ativa o Pages?', opts:['Actions, Deploy','Settings, Pages','Code, Publish','Repository, Hosting'], c:1, exp:'O GitHub Pages é ativado em Settings (Configurações) depois Pages, escolhendo a branch e pasta.' }
+        ],
         content:`
-<h3>Unindo HTML + CSS + JavaScript</h3>
-<p>Neste projeto você vai construir um <strong>app completo de cadastro de alunos</strong> com:</p>
-<ul>
-  <li>Formulário HTML para entrada de dados</li>
-  <li>CSS para design visual profissional</li>
-  <li>JavaScript para lógica, armazenamento e renderização</li>
-</ul>
-<h3>Arquitetura do projeto</h3>
+<h3>Unindo HTML, CSS e JavaScript</h3>
+<p>Neste projeto você vai construir um app completo com formulário HTML, CSS visual profissional e JavaScript para lógica e renderização.</p>
 <pre class="code-block"><span class="cm">// 1. Estado: onde ficam os dados</span>
-<span class="kw">const</span> alunos = [];  <span class="cm">// array de objetos</span>
+<span class="kw">const</span> alunos = [];
 
-<span class="cm">// 2. Ação: captura dados do formulário</span>
+<span class="cm">// 2. Ação: captura dados</span>
 <span class="kw">function</span> cadastrar() {
-  <span class="kw">const</span> nome = document.getElementById(<span class="str">'nome'</span>).value;
   alunos.push({ nome, nota });
-  renderizar();  <span class="cm">// sempre re-renderiza</span>
+  renderizar();
 }
 
-<span class="cm">// 3. Render: transforma dados em HTML</span>
+<span class="cm">// 3. Render: transforma em HTML</span>
 <span class="kw">function</span> renderizar() {
-  lista.innerHTML = alunos.map(a => <span class="str">\`&lt;div&gt;\${a.nome}&lt;/div&gt;\`</span>).join(<span class="str">''</span>);
+  lista.innerHTML = alunos
+    .map(a => <span class="str">\`&lt;div&gt;\${a.nome}&lt;/div&gt;\`</span>)
+    .join(<span class="str">''</span>);
 }</pre>
 <div style="background:#dcfce7;border:1px solid #86efac;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#166534">
-  <strong>🚀 Padrão Estado → Ação → Render:</strong> Este é exatamente o modelo mental do React, Vue e Angular. Você está aprendendo a base dos frameworks modernos!
+  <strong>Padrão Estado, Ação, Render:</strong> Este é o modelo mental do React, Vue e Angular. Você está aprendendo a base dos frameworks modernos!
 </div>
-<h3>Funcionalidades implementadas</h3>
-<ul>
-  <li>Adicionar alunos com nome e nota</li>
-  <li>Ordenar por nota decrescente</li>
-  <li>Indicar aprovados (≥7) e reprovados</li>
-  <li>Calcular e exibir média da turma</li>
-</ul>`
-      },
-      {
-        id:'m4l2', title:'4.2 Como Publicar no GitHub Pages',
-        code:{ html:`<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n  <meta charset="UTF-8">\n  <title>Meu Projeto Online</title>\n  <style>\n    body {\n      font-family: sans-serif;\n      text-align: center;\n      padding: 60px 20px;\n      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n      color: white;\n      min-height: 100vh;\n      margin: 0;\n    }\n    h1 { font-size: 2.5rem; margin-bottom: 12px; }\n    p { font-size: 1.1rem; opacity: .9; }\n    .badge {\n      display: inline-block;\n      background: rgba(255,255,255,.2);\n      padding: 8px 20px;\n      border-radius: 99px;\n      margin-top: 20px;\n      font-size: .9rem;\n    }\n  </style>\n</head>\n<body>\n  <h1>🚀 Meu Projeto Está Online!</h1>\n  <p>Hospedado gratuitamente com GitHub Pages</p>\n  <div class="badge">HTML + CSS + JavaScript</div>\n</body>\n</html>`, css:``, js:`console.log('Meu projeto está no ar! 🎉');` },
-        content:`
-<h3>GitHub Pages — hospedagem gratuita</h3>
-<p>O GitHub Pages permite publicar sites estáticos (HTML, CSS, JS) diretamente do seu repositório, <strong>de graça</strong>, com uma URL pública.</p>
-<h3>Passo a passo resumido</h3>
-<div style="display:grid;gap:.6rem;margin:.75rem 0">
-  <div style="display:flex;gap:.75rem;align-items:flex-start;background:#f8fafc;padding:.75rem;border-radius:.5rem;border:1px solid #e2e8f0">
-    <span style="background:#4f46e5;color:white;border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">1</span>
-    <div><strong>Crie uma conta em github.com</strong> — é gratuito!</div>
-  </div>
-  <div style="display:flex;gap:.75rem;align-items:flex-start;background:#f8fafc;padding:.75rem;border-radius:.5rem;border:1px solid #e2e8f0">
-    <span style="background:#4f46e5;color:white;border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">2</span>
-    <div><strong>Crie um repositório público</strong> com qualquer nome</div>
-  </div>
-  <div style="display:flex;gap:.75rem;align-items:flex-start;background:#f8fafc;padding:.75rem;border-radius:.5rem;border:1px solid #e2e8f0">
-    <span style="background:#4f46e5;color:white;border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">3</span>
-    <div><strong>Faça upload do arquivo</strong> — deve se chamar <code>index.html</code></div>
-  </div>
-  <div style="display:flex;gap:.75rem;align-items:flex-start;background:#f8fafc;padding:.75rem;border-radius:.5rem;border:1px solid #e2e8f0">
-    <span style="background:#4f46e5;color:white;border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">4</span>
-    <div><strong>Settings → Pages → Branch main → Save</strong></div>
-  </div>
-  <div style="display:flex;gap:.75rem;align-items:flex-start;background:#dcfce7;padding:.75rem;border-radius:.5rem;border:1px solid #86efac">
-    <span style="background:#16a34a;color:white;border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">✓</span>
-    <div style="color:#166534"><strong>Pronto!</strong> Em ~60 segundos seu site fica disponível em <code>SEU-USUARIO.github.io/REPOSITORIO/</code></div>
-  </div>
-</div>
-<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:.5rem;padding:.75rem 1rem;margin:.75rem 0;font-size:.85rem;color:#92400e">
-  <strong>💡 Dica importante:</strong> Para publicar o projeto desta aula, copie todo o código do Editor (HTML com CSS e JS embutidos) e salve como <strong>index.html</strong>. Clique no botão "GitHub Pages" no topo desta página para ver o guia detalhado!
-</div>`
+<h3>Publicando no GitHub Pages</h3>
+<ol style="padding-left:1.2rem;line-height:2">
+  <li>Crie uma conta em github.com</li>
+  <li>Crie um repositório público</li>
+  <li>Faça upload do seu <strong>index.html</strong></li>
+  <li>Vá em Settings, Pages, Branch main, Save</li>
+  <li>Aguarde 60 segundos e seu site estará em SEU-USUARIO.github.io/REPOSITORIO/</li>
+</ol>`
       }
-    ],
-    quiz:[
-      { q:'Qual deve ser o nome exato do arquivo HTML principal para o GitHub Pages funcionar?', opts:['home.html','main.html','index.html','app.html'], c:2,
-        exp:'O GitHub Pages procura automaticamente por um arquivo chamado "index.html" na raiz do repositório como ponto de entrada do site.' },
-      { q:'Para publicar um site no GitHub Pages, o repositório precisa ser:', opts:['Privado e pago','Público ou privado (para Pro)','Apenas Private','Pertencer a uma organização'], c:1,
-        exp:'Repositórios públicos têm acesso ao GitHub Pages gratuitamente. Repositórios privados precisam de plano Pro pago.' },
-      { q:'Após ativar o GitHub Pages, onde fica disponível seu site?', opts:['Em localhost:3000','Em github.com/seu-repositorio','Em SEU-USUARIO.github.io/REPOSITORIO','Em pages.github.com'], c:2,
-        exp:'O GitHub Pages publica na URL padrão: USUARIO.github.io/NOME-DO-REPOSITORIO. Se o repositório se chama USUARIO.github.io, o site vai para a raiz.' },
-      { q:'Onde nas configurações do repositório você ativa o GitHub Pages?', opts:['Actions → Deploy','Settings → Pages','Code → Publish','Repository → Hosting'], c:1,
-        exp:'O GitHub Pages é ativado em Settings (Configurações) → Pages, onde você escolhe a branch e pasta de onde publicar.' }
     ]
   }
 ];
@@ -728,6 +691,7 @@ turma.forEach(aluno => {
 // ============================================================
 let curMod = 0, curLes = 0;
 let progress = {};
+let quizAnswers = {};
 
 // ============================================================
 // INICIALIZAÇÃO
@@ -738,13 +702,14 @@ document.addEventListener('DOMContentLoaded', () => {
   loadLesson(0, 0);
   initTheme();
   initMobileMenu();
+  initEmmet();
 });
 
-// ── Tema ────────────────────────────────────────────────────
+// ── Tema ─────────────────────────────────────────────────────
 function initTheme() {
   const btn = document.getElementById('themeBtn');
   const icon = document.getElementById('themeIcon');
-  const applyTheme = (dark) => {
+  const applyTheme = dark => {
     document.documentElement.classList.toggle('dark', dark);
     icon.className = dark ? 'fa-solid fa-sun text-lg text-amber-400' : 'fa-solid fa-moon text-lg';
   };
@@ -757,7 +722,35 @@ function initTheme() {
   applyTheme(saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches));
 }
 
-// ── Mobile Menu ─────────────────────────────────────────────
+// ── Emmet: ! expande para DOCTYPE ────────────────────────────
+function initEmmet() {
+  const htmlEd = document.getElementById('htmlEd');
+  const hint = document.getElementById('emmetHint');
+
+  htmlEd.addEventListener('input', () => {
+    const val = htmlEd.value;
+    if (val.trim() === '!') {
+      hint.classList.add('show');
+    } else {
+      hint.classList.remove('show');
+    }
+  });
+
+  htmlEd.addEventListener('keydown', e => {
+    const val = htmlEd.value;
+    if ((e.key === 'Tab' || e.key === 'Enter') && val.trim() === '!') {
+      e.preventDefault();
+      htmlEd.value = DOCTYPE_SNIPPET;
+      hint.classList.remove('show');
+      // posiciona cursor entre as tags body
+      const pos = DOCTYPE_SNIPPET.indexOf('  \n</body>') + 2;
+      htmlEd.setSelectionRange(pos, pos);
+      runCode();
+    }
+  });
+}
+
+// ── Mobile Menu ───────────────────────────────────────────────
 function initMobileMenu() {
   const sb = document.getElementById('sidebar');
   const ov = document.getElementById('overlay');
@@ -767,7 +760,7 @@ function initMobileMenu() {
   ov.addEventListener('click', toggle);
 }
 
-// ── Sidebar ─────────────────────────────────────────────────
+// ── Sidebar ───────────────────────────────────────────────────
 function renderSidebar() {
   const nav = document.getElementById('sidebarNav');
   nav.innerHTML = course.map((mod, mi) => {
@@ -798,9 +791,10 @@ function updateProgress() {
   document.getElementById('progressText').textContent = pct + '%';
 }
 
-// ── Lição ───────────────────────────────────────────────────
+// ── Lição ─────────────────────────────────────────────────────
 function loadLesson(mi, li) {
   curMod = mi; curLes = li;
+  quizAnswers = {};
   renderSidebar();
   const lesson = course[mi].lessons[li];
   const done = progress[lesson.id];
@@ -817,9 +811,9 @@ function loadLesson(mi, li) {
       <div class="lesson-content">${lesson.content}</div>
       <div class="bg-slate-900 rounded-xl p-5 space-y-3">
         <p class="text-amber-400 font-semibold text-sm flex items-center gap-2"><i class="fa-solid fa-dumbbell"></i> Pratique no Editor!</p>
-        <p class="text-slate-400 text-xs">O código desta aula já está carregado no Editor ao lado. Experimente modificá-lo!</p>
+        <p class="text-slate-400 text-xs">O código desta aula já está carregado. Experimente modificá-lo!</p>
         <button onclick="openPlayground()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition flex items-center gap-1.5">
-          <i class="fa-solid fa-flask-vial"></i> Abrir Editor & Preview
+          <i class="fa-solid fa-flask-vial"></i> Abrir Editor e Preview
         </button>
       </div>
       <div class="flex items-center justify-between pt-2">
@@ -857,21 +851,24 @@ function navigate(dir) {
   loadLesson(mi, li);
 }
 
-// ── Views ───────────────────────────────────────────────────
+// ── Views ─────────────────────────────────────────────────────
 function switchView(v) {
   ['lesson','playground','quiz'].forEach(id => {
-    document.getElementById('view' + id.charAt(0).toUpperCase() + id.slice(1)).classList.add('hidden');
+    const el = document.getElementById('view' + id.charAt(0).toUpperCase() + id.slice(1));
+    el.classList.add('hidden');
+    el.classList.remove('flex');
     document.getElementById('tab' + id.charAt(0).toUpperCase() + id.slice(1)).className =
       'py-3 text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 whitespace-nowrap';
   });
   const key = v === 'lesson' ? 'Lesson' : v === 'playground' ? 'Playground' : 'Quiz';
-  document.getElementById('view' + key).classList.remove('hidden');
-  document.getElementById('view' + key).classList.add(key === 'Playground' ? 'flex' : '');
+  const viewEl = document.getElementById('view' + key);
+  viewEl.classList.remove('hidden');
+  if (key === 'Playground') viewEl.classList.add('flex');
   document.getElementById('tab' + key).className = 'py-3 tab-active flex items-center gap-1.5 whitespace-nowrap';
   if (v === 'playground') runCode();
 }
 
-// ── Playground ──────────────────────────────────────────────
+// ── Playground ────────────────────────────────────────────────
 function selectTab(t) {
   ['html','css','js'].forEach(x => {
     document.getElementById(x + 'Ed').classList.add('hidden');
@@ -885,17 +882,22 @@ function selectTab(t) {
 
 function runCode() {
   const html = document.getElementById('htmlEd').value;
-  const css = document.getElementById('cssEd').value;
-  const js = document.getElementById('jsEd').value;
+  const css  = document.getElementById('cssEd').value;
+  const js   = document.getElementById('jsEd').value;
   const iframe = document.getElementById('previewFrame');
   const doc = iframe.contentDocument || iframe.contentWindow.document;
-  const consoleHook = `<script>(function(){const l=console.log;console.log=function(...a){l.apply(console,a);window.parent.postMessage({type:'CONSOLE',msg:a.join(' ')},'*')};})();<\/script>`;
-  const hasFull = html.includes('<!DOCTYPE');
+  const isDark = document.documentElement.classList.contains('dark');
+  const consoleHook = `<script>(function(){const l=console.log;console.log=function(...a){l.apply(console,a);window.parent.postMessage({type:'CONSOLE',msg:a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' ')},'*')};})();<\/script>`;
+  const darkBase = isDark ? 'body{background:#f8fafc;color:#1e293b}' : '';
+  const hasFull = html.includes('<!DOCTYPE') || html.includes('<html');
   let src;
   if (hasFull) {
-    src = html.replace('<head>', `<head><style>${css}</style>${consoleHook}`).replace('</body>', `<script>${js}<\/script></body>`);
+    src = html
+      .replace('<head>', `<head><style>${darkBase}${css}</style>${consoleHook}`)
+      .replace('</body>', `<script>${js}<\/script></body>`);
+    if (!src.includes(consoleHook)) src = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>${darkBase}${css}</style>${consoleHook}</head><body>${html}<script>${js}<\/script></body></html>`;
   } else {
-    src = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>${css}</style>${consoleHook}</head><body>${html}<script>${js}<\/script></body></html>`;
+    src = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>${darkBase}${css}</style>${consoleHook}</head><body>${html}<script>${js}<\/script></body></html>`;
   }
   doc.open(); doc.write(src); doc.close();
 }
@@ -904,8 +906,8 @@ function resetCode() {
   const l = course[curMod].lessons[curLes];
   if (l.code) {
     document.getElementById('htmlEd').value = l.code.html || '';
-    document.getElementById('cssEd').value = l.code.css || '';
-    document.getElementById('jsEd').value = l.code.js || '';
+    document.getElementById('cssEd').value  = l.code.css  || '';
+    document.getElementById('jsEd').value   = l.code.js   || '';
     runCode();
   }
 }
@@ -925,28 +927,30 @@ window.addEventListener('message', e => {
   }
 });
 
-// ── Quiz ────────────────────────────────────────────────────
+// ── Quiz (por lição, com reset correto) ───────────────────────
 function renderQuiz() {
-  const mod = course[curMod];
+  const lesson = course[curMod].lessons[curLes];
   const container = document.getElementById('quizContainer');
-  if (!mod.quiz?.length) {
-    container.innerHTML = `<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center text-slate-400">Nenhum quiz para este módulo.</div>`;
+  quizAnswers = {};
+
+  if (!lesson.quiz?.length) {
+    container.innerHTML = `<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center text-slate-400">Nenhum quiz para este tópico.</div>`;
     return;
   }
 
-  const total = mod.quiz.length;
+  const total = lesson.quiz.length;
   container.innerHTML = `
     <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm fade-in">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4 mb-6">
         <div>
-          <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Quiz de Fixação</span>
-          <h3 class="text-lg font-bold">${mod.title}</h3>
-          <p class="text-xs text-slate-400 mt-0.5">${total} questões — selecione a resposta correta</p>
+          <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Quiz do Tópico</span>
+          <h3 class="text-lg font-bold">${lesson.title}</h3>
+          <p class="text-xs text-slate-400 mt-0.5">${total} questões, selecione a resposta correta</p>
         </div>
         <span id="quizScore" class="bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-bold px-3 py-1.5 rounded-full">0 / ${total}</span>
       </div>
       <div id="questions" class="space-y-6">
-        ${mod.quiz.map((q, qi) => `
+        ${lesson.quiz.map((q, qi) => `
           <div class="quiz-q space-y-2.5">
             <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">${qi + 1}. ${q.q}</p>
             <div class="space-y-1.5">
@@ -965,51 +969,55 @@ function renderQuiz() {
     </div>`;
 }
 
-let quizAnswers = {};
 function answerQ(qi, oi) {
   if (quizAnswers[qi] !== undefined) return;
   quizAnswers[qi] = oi;
-  const correct = course[curMod].quiz[qi].c;
-  const total = course[curMod].quiz.length;
+  const lesson = course[curMod].lessons[curLes];
+  const correct = lesson.quiz[qi].c;
+  const total = lesson.quiz.length;
 
-  // Disable all options for this question, mark correct/wrong
-  course[curMod].quiz[qi].opts.forEach((_, i) => {
+  lesson.quiz[qi].opts.forEach((_, i) => {
     const btn = document.getElementById(`opt-${qi}-${i}`);
+    if (!btn) return;
     btn.disabled = true;
     if (i === correct) btn.classList.add('correct');
     else if (i === oi) btn.classList.add('wrong');
   });
 
-  // Show explanation
-  document.getElementById(`exp-${qi}`).classList.remove('hidden');
+  const expEl = document.getElementById(`exp-${qi}`);
+  if (expEl) expEl.classList.remove('hidden');
 
-  // Update score
   const answered = Object.keys(quizAnswers).length;
-  const right = Object.entries(quizAnswers).filter(([q, a]) => parseInt(a) === course[curMod].quiz[q].c).length;
-  document.getElementById('quizScore').textContent = `${right} / ${total}`;
+  const right = Object.entries(quizAnswers).filter(([q, a]) => parseInt(a) === lesson.quiz[q].c).length;
+  const scoreEl = document.getElementById('quizScore');
+  if (scoreEl) scoreEl.textContent = `${right} / ${total}`;
 
-  // Show final result when all answered
   if (answered === total) {
     const pct = Math.round((right / total) * 100);
-    const emoji = pct >= 80 ? '🎉' : pct >= 60 ? '😊' : '📚';
-    document.getElementById('quizResult').innerHTML = `
-      <div class="text-2xl">${emoji}</div>
-      <div class="font-bold text-lg">${right} de ${total} corretas (${pct}%)</div>
-      <div class="text-sm text-slate-400">${pct >= 80 ? 'Excelente! Você domina este módulo.' : pct >= 60 ? 'Bom trabalho! Revise as questões erradas.' : 'Revise o conteúdo e tente novamente.'}</div>
-      <button onclick="resetQuiz()" class="mt-2 text-xs font-semibold px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition">
-        <i class="fa-solid fa-rotate-left mr-1"></i> Refazer Quiz
-      </button>`;
-    document.getElementById('quizResult').classList.remove('hidden');
+    const emoji = pct >= 80 ? 'Excelente!' : pct >= 60 ? 'Bom trabalho!' : 'Continue praticando!';
+    const resultEl = document.getElementById('quizResult');
+    if (resultEl) {
+      resultEl.innerHTML = `
+        <div class="font-bold text-lg">${right} de ${total} corretas (${pct}%)</div>
+        <div class="text-sm text-slate-400">${emoji}</div>
+        <button onclick="resetQuiz()" class="mt-2 text-xs font-semibold px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition">
+          <i class="fa-solid fa-rotate-left mr-1"></i> Refazer Quiz
+        </button>`;
+      resultEl.classList.remove('hidden');
+    }
   }
 }
 
-function resetQuiz() { quizAnswers = {}; renderQuiz(); }
+function resetQuiz() {
+  quizAnswers = {};
+  renderQuiz();
+}
 
-// ── Modal ────────────────────────────────────────────────────
+// ── Modal ──────────────────────────────────────────────────────
 function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-// ── Persistência ─────────────────────────────────────────────
+// ── Persistência ───────────────────────────────────────────────
 function saveProgress() { try { localStorage.setItem('wda_progress', JSON.stringify(progress)); } catch(e){} }
 function loadProgress() { try { const s = localStorage.getItem('wda_progress'); if(s) progress = JSON.parse(s); } catch(e){} }
 </script>
